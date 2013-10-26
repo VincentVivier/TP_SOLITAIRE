@@ -219,7 +219,7 @@ public class PSabot extends JPanel {
 			repaint();
 		}
 		
-	}// test modifs
+	}
 	
 	class MyDragSourceMotionListener implements DragSourceMotionListener {
 
