@@ -2,8 +2,6 @@ package solitaire.presentation;
 
 import interfacesControle.ICTasDeCartes;
 
-import java.awt.Dimension;
-
 import javax.swing.JPanel;
 
 public class PTasDeCartes extends JPanel{
@@ -26,6 +24,7 @@ public class PTasDeCartes extends JPanel{
 	public void empiler(PCarte pc){
 		pc.setLocation(getComponentCount()*dx, getComponentCount()*dy);
 		add(pc, 0);
+		repaint(); // Nécessaire sinon mauvais placement des cartes
 	}
 	
 	public void setDxDy(int dx, int dy){

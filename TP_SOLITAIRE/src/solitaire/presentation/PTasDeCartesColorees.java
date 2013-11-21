@@ -14,6 +14,7 @@ import java.io.IOException;
 
 import javax.swing.border.BevelBorder;
 
+import solitaire.controleur.CCarte;
 import solitaire.controleur.CTasDeCartesColorees;
 
 public class PTasDeCartesColorees extends PTasDeCartes{
@@ -37,6 +38,10 @@ public class PTasDeCartesColorees extends PTasDeCartes{
 		setBackground(Color.MAGENTA);
 
 		setBorder(new javax.swing.border.BevelBorder(BevelBorder.LOWERED));
+		
+		//Gestion DnD
+		dt = new DropTarget(this, new MyDropTargetListener());
+		// fin gestion DnD
 	}
 	
 	// gestion DnD
@@ -69,7 +74,7 @@ public class PTasDeCartesColorees extends PTasDeCartes{
 		@Override
 		public void dragEnter(DropTargetDragEvent dtde) {
 			try {
-				
+				System.out.println("entree dans drag enter");
 				pc = (PCarte) dtde.getTransferable().getTransferData(new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType));
 				c.p2c_dragEnter(pc.getControle());
 				

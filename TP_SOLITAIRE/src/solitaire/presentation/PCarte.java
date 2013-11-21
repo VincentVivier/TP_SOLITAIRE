@@ -73,8 +73,8 @@ public class PCarte extends JPanel implements Transferable{
   */
   static {
 	iconeDos = new ImageIcon(ClassLoader.getSystemResource("solitaire/cartesCSHD/dos.jpg")) ;
-	largeur = iconeDos.getIconWidth () + 4;
-	hauteur = iconeDos.getIconHeight () + 4;
+	largeur = iconeDos.getIconWidth ()/* + 4*/;
+	hauteur = iconeDos.getIconHeight () /*+ 4*/;
   }
 
   /**

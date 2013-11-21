@@ -28,6 +28,7 @@ public class CSabot extends Sabot {
 			p.activerRetournerCarte();
 			p.desactiverRetournerTas();
 		}
+		System.out.println("SET RESERVE !!!");
 	}
 	
 	public void retourner() throws Exception{
@@ -38,13 +39,19 @@ public class CSabot extends Sabot {
 		if (isCarteRetournable()){
 			p.activerRetournerCarte();
 		}
+		System.out.println("RETOURNER !!!");
 	}
 	
 	public void retournerCarte() throws Exception{
-		super.retournerCarte();
-		if (isRetournable()){
-			p.desactiverRetournerCarte();
-			p.activerRetournerTas();
+		for (int i = 0 ; i < 3 ; i++){
+			super.retournerCarte();
+			System.out.println("RETOURNER CARTE !!!");
+			if (isRetournable()){
+				System.out.println("cest retournable !");
+				p.desactiverRetournerCarte();
+				p.activerRetournerTas();
+				break;
+			}
 		}
 	}
 	
@@ -53,6 +60,7 @@ public class CSabot extends Sabot {
 		if (isRetournable()){
 			p.desactiverRetournerTas();
 		}
+		System.out.println("DEPILER !!!");
 	}
 	
 	// gestion Dnd
@@ -61,6 +69,7 @@ public class CSabot extends Sabot {
 			if (cc == getSommet()){
 				depiler();
 				p.c2p_debutDnDOK(cc);
+				System.out.println("debutDnDOK");
 				this.cc = cc;
 			}
 			else{
@@ -72,6 +81,7 @@ public class CSabot extends Sabot {
 	}
 	
 	public void p2c_dragDropEnd(boolean success){
+		System.out.println("Success drop end : " + success);
 		if(!success){
 			empiler(cc);
 		}

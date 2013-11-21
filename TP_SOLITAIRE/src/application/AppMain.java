@@ -7,6 +7,6 @@ public class AppMain {
 
 	public static void main(String[] args) {
 		CUsine u = new CUsine();
-		new CSolitaire("GLI - Solitaire - Vince", u);
+		new CSolitaire("GLI - Solitaire", u);
 	}
 }

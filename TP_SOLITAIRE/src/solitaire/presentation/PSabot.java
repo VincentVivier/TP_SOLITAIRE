@@ -16,8 +16,6 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
-import com.sun.management.VMOption.Origin;
-
 import solitaire.controleur.CCarte;
 import solitaire.controleur.CSabot;
 
@@ -59,7 +57,7 @@ public class PSabot extends JPanel {
 		add(visibles);
 		
 		cachees.setDxDy(0, 0);
-		visibles.setDxDy(30, 0);
+		visibles.setDxDy(25, 0);
 		
 		rtl = new RetournerTasListener();
 		rcl = new RetournerCarteListener();
@@ -225,7 +223,8 @@ public class PSabot extends JPanel {
 
 		@Override
 		public void dragMouseMoved(DragSourceDragEvent dsde) {
-			pcMove.setLocation((1+dsde.getX()) - getRootPane().getParent().getX() - visibles.getComponentCount()*origin.x,
+		//	System.out.println(origin.x + " : " + origin.y);
+			pcMove.setLocation((1+dsde.getX()) - getRootPane().getParent().getX() - origin.x,
 					(1+dsde.getY()) - getRootPane().getParent().getY() - origin.y - 25);
 		}
 		
