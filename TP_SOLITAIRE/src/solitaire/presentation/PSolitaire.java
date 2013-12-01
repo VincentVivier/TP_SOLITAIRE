@@ -3,7 +3,6 @@ package solitaire.presentation;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
@@ -28,36 +27,39 @@ public class PSolitaire extends JFrame {
 		
 		addWindowListener(new MyWindowListener());
 		
-		setPreferredSize(new Dimension(950, 750));
+		setPreferredSize(new Dimension(750, 700));
 		setSize(this.getPreferredSize());
-		setResizable(false);
+	//	setResizable(false);
+		
+		
+		JPanel pNord = new JPanel();
+		pNord.setLayout(new BorderLayout());
+		pNord.setBackground(Color.PINK);
 		
 		// Ajout du sabot
 		sabot.setBackground(Color.black);
-		add(sabot, BorderLayout.NORTH);
+		pNord.add(sabot, BorderLayout.WEST);
+		
+		// Ajout des tas de cartes colorés avec le font correspondant
+		JLabel face;
+		JPanel pCC = new JPanel();
+		pCC.setBackground(Color.BLUE);
+		for (int i = 0 ; i < ptcc.length ; i++){
+			face = new JLabel(new ImageIcon(ClassLoader.getSystemResource("solitaire/cartesCSHD/CarteInit" + (i+1) + ".gif")));
+			face.setSize(72, 96);
+			ptcc[i].add(face, -1);
+			pCC.add(ptcc[i]);
+		}
+		pNord.add(pCC, BorderLayout.EAST);
+		add(pNord, BorderLayout.NORTH);
 		
 		// Ajout des colonnes
 		JPanel pColonnes = new JPanel();
+		pColonnes.setBackground(Color.ORANGE);
 		for (int i = 0 ; i < ptca.length ; i++){
 			pColonnes.add(ptca[i], BorderLayout.CENTER);
 		}
 		add(pColonnes, BorderLayout.CENTER);
-		
-		// Ajout des tas de cartes colorés
-		JPanel pCartesColorees = new JPanel();
-		pCartesColorees.setLayout(new GridLayout(ptcc.length, 1));
-		JLabel face;
-		for (int i = 0 ; i < ptcc.length ; i++){
-			face = new JLabel(new ImageIcon(ClassLoader.getSystemResource("solitaire/cartesCSHD/CarteInit" + (i+1) + ".gif")));
-			face.setLocation(0, 0);
-			face.setSize(72, 96);
-			ptcc[i].add(face, -1);
-			pCartesColorees.add(ptcc[i]);
-		}
-		JPanel tst = new JPanel();
-		tst.add(pCartesColorees);
-		add(tst, BorderLayout.EAST);
-		
 		
 		// Rendre visible le tout
 		setVisible(true);

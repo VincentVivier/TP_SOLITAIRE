@@ -36,17 +36,4 @@ public class CTasDeCartesAlternees extends TasDeCartesAlternees implements ICTas
 			e.printStackTrace();
 		}
 	}
-
-	@Override
-	public void beginDND() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void endDND() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

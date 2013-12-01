@@ -14,7 +14,6 @@ import java.io.IOException;
 
 import javax.swing.border.BevelBorder;
 
-import solitaire.controleur.CCarte;
 import solitaire.controleur.CTasDeCartesColorees;
 
 public class PTasDeCartesColorees extends PTasDeCartes{
@@ -69,15 +68,13 @@ public class PTasDeCartesColorees extends PTasDeCartes{
 	
 	class MyDropTargetListener implements DropTargetListener{
 
-		PCarte pc;
+		PTasDeCartes ptc;
 		
 		@Override
 		public void dragEnter(DropTargetDragEvent dtde) {
 			try {
-				System.out.println("entree dans drag enter");
-				pc = (PCarte) dtde.getTransferable().getTransferData(new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType));
-				c.p2c_dragEnter(pc.getControle());
-				
+				ptc = (PTasDeCartes) dtde.getTransferable().getTransferData(new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType));
+				c.p2c_dragEnter(ptc.getControle());
 			} catch (UnsupportedFlavorException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -102,15 +99,14 @@ public class PTasDeCartesColorees extends PTasDeCartes{
 
 		@Override
 		public void dragExit(DropTargetEvent dte) {
-			c.p2c_dragExit(pc.getControle());
+			c.p2c_dragExit(ptc.getControle());
 		}
 
 		@Override
 		public void drop(DropTargetDropEvent dtde) {
 			theInitialEvent = dtde;
-			c.p2c_drop(pc.getControle());
-		}
-		
+			c.p2c_drop(ptc.getControle());
+		}	
 	}
 	// fin gestion DnD
 }

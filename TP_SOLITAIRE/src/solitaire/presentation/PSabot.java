@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 
 import solitaire.controleur.CCarte;
 import solitaire.controleur.CSabot;
+import solitaire.controleur.CTasDeCartes;
 
 public class PSabot extends JPanel {
 
@@ -34,7 +35,7 @@ public class PSabot extends JPanel {
 	DragSourceListener myDSL;
 	DragSourceMotionListener myDSML;
 	DragGestureEvent theInitialEvent;
-	PCarte pcMove;
+	PTasDeCartes ptcMove;
 	Point origin;
 	//fin gestion Dnd
 
@@ -49,7 +50,7 @@ public class PSabot extends JPanel {
 		cachees.setSize(cachees.getPreferredSize());
 		
 		// modifications cartes visibles
-		visibles.setPreferredSize(new Dimension(800, 96));
+		visibles.setPreferredSize(new Dimension(122, 96));
 		visibles.setSize(cachees.getPreferredSize());
 		
 		// ajout des tas de cartes
@@ -62,9 +63,8 @@ public class PSabot extends JPanel {
 		rtl = new RetournerTasListener();
 		rcl = new RetournerCarteListener();
 		
-		// Gestion Dnd
-		
-		myDSL = new MyDragSourceListener () ;
+		// Gestion Dnd source
+		myDSL = new MyDragSourceListener() ;
 		ds = new DragSource();
 		ds.createDefaultDragGestureRecognizer (visibles, DnDConstants.ACTION_MOVE, new MyDragGestureListener ());
 		myDSML = new MyDragSourceMotionListener();
@@ -88,14 +88,22 @@ public class PSabot extends JPanel {
 		visibles.removeMouseListener(rtl);
 	}
 	
+	public void effacerVisibles(){
+		visibles.removeAll();
+	}
+	
 	// gestion DnD
-	public void c2p_debutDnDKO(CCarte cc){
+	public void c2p_debutDnDKO(CTasDeCartes ct){
 		// TODO Ajouter quelque chose plus tard si besoin
 	}
 	
-	public void c2p_debutDnDOK(CCarte cc){
-		ds.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, cc.getPresentation(), myDSL);
-		getParent().add(cc.getPresentation(), 0);
+	public void c2p_debutDnDOK(CTasDeCartes ct){
+		ds.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, ct.getPresentation(), myDSL);
+		ptcMove = ct.getPresentation();
+		
+		
+		
+		getParent().add(ct.getPresentation(), 0);
 	}
 	// fin gestion DnD
 	
@@ -167,13 +175,13 @@ public class PSabot extends JPanel {
 		
 	}
 	
-	// Gestion Dnd
+	// Gestion Dnd source
 	class MyDragGestureListener implements DragGestureListener{
 
 		@Override
 		public void dragGestureRecognized(DragGestureEvent dge) {
 			theInitialEvent = dge;
-			pcMove = null;
+			PCarte pcMove = null;
 			CCarte cc = null;
 			try{
 				origin = dge.getDragOrigin();
@@ -223,9 +231,8 @@ public class PSabot extends JPanel {
 
 		@Override
 		public void dragMouseMoved(DragSourceDragEvent dsde) {
-		//	System.out.println(origin.x + " : " + origin.y);
-			pcMove.setLocation((1+dsde.getX()) - getRootPane().getParent().getX() - origin.x,
-					(1+dsde.getY()) - getRootPane().getParent().getY() - origin.y - 25);
+			ptcMove.setLocation(dsde.getX()-( ptcMove.getWidth()/2),
+								dsde.getY() - getRootPane().getParent().getY() - origin.y - 25);
 		}
 		
 	}

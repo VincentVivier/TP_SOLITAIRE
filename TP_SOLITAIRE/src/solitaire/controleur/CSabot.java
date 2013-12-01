@@ -9,7 +9,7 @@ public class CSabot extends Sabot {
 	PSabot p;
 	
 	// gestion DnD
-	CCarte cc;
+	CTasDeCartes ct;
 	//fin gestion DnD
 	
 	public CSabot(String nom, CUsine u) {
@@ -39,19 +39,19 @@ public class CSabot extends Sabot {
 		if (isCarteRetournable()){
 			p.activerRetournerCarte();
 		}
-		System.out.println("RETOURNER !!!");
 	}
 	
 	public void retournerCarte() throws Exception{
-		for (int i = 0 ; i < 3 ; i++){
+		p.effacerVisibles();
+		for (int i = 0 ; i < 3 ; i++){ // retourner 3 cartes
 			super.retournerCarte();
-			System.out.println("RETOURNER CARTE !!!");
 			if (isRetournable()){
 				System.out.println("cest retournable !");
 				p.desactiverRetournerCarte();
 				p.activerRetournerTas();
 				break;
 			}
+			System.out.println("RETOURNER " + (i+1) + " CARTES !!!");
 		}
 	}
 	
@@ -63,17 +63,18 @@ public class CSabot extends Sabot {
 		System.out.println("DEPILER !!!");
 	}
 	
-	// gestion Dnd
+	// gestion Dnd source
 	public void p2c_debutDnd(CCarte cc){
 		try {
 			if (cc == getSommet()){
 				depiler();
-				p.c2p_debutDnDOK(cc);
-				System.out.println("debutDnDOK");
-				this.cc = cc;
+				ct = new CTasDeCartes("carteSabot", null);
+				ct.getPresentation().setDxDy(0, 0);
+				ct.empiler(cc);
+				p.c2p_debutDnDOK(ct);
 			}
 			else{
-				p.c2p_debutDnDKO(cc);
+				p.c2p_debutDnDKO(ct);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -83,7 +84,11 @@ public class CSabot extends Sabot {
 	public void p2c_dragDropEnd(boolean success){
 		System.out.println("Success drop end : " + success);
 		if(!success){
-			empiler(cc);
+			try {
+				empiler(ct);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	// fin gestion Dnd

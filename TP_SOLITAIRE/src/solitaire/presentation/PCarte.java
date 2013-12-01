@@ -104,20 +104,21 @@ public class PCarte extends JPanel implements Transferable{
 
 @Override
 public DataFlavor[] getTransferDataFlavors() {
-	// TODO Auto-generated method stub
+	System.out.println("getTransferDataFlavors non implémentée");
 	return null;
 }
 
 @Override
 public boolean isDataFlavorSupported(DataFlavor flavor) {
-	// TODO Auto-generated method stub
+	System.out.println("isDataFlavorSupported non implémentée");
 	return false;
 }
 
 @Override
-public Object getTransferData(DataFlavor flavor)
-		throws UnsupportedFlavorException, IOException {
-	// TODO Auto-generated method stub
+public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+	if (flavor.isMimeTypeEqual(DataFlavor.javaJVMLocalObjectMimeType)){
+		return (Object)this;
+	}
 	return null;
 }
 

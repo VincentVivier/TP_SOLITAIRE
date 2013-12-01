@@ -13,12 +13,11 @@ public class PTasDeCartesAlternees extends PTasDeCartes {
 	
 	public PTasDeCartesAlternees(CTasDeCartesAlternees c) {
 		super(c);
+	//	this.c = c;
 		
 		setBackground(Color.ORANGE);
 		
 		setPreferredSize(new Dimension(100, 400));
 		setSize(getPreferredSize());
-		
 	}
-
 }

@@ -1,17 +1,8 @@
 package solitaire.controleur;
 
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
-import java.io.IOException;
-
 import interfacesControle.ICTasDeCartes;
 import solitaire.application.Carte;
 import solitaire.application.TasDeCartesColorees;
-import solitaire.presentation.PCarte;
 import solitaire.presentation.PTasDeCartes;
 import solitaire.presentation.PTasDeCartesColorees;
 
@@ -47,21 +38,9 @@ public class CTasDeCartesColorees extends TasDeCartesColorees implements ICTasDe
 			}
 		}
 	}
-
-	@Override
-	public void beginDND() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void endDND() {
-		// TODO Auto-generated method stub
-		
-	}
 	
-	public void p2c_dragEnter(CCarte cc){
-		if (isEmpilable(cc)){
+	public void p2c_dragEnter(CTasDeCartes ctc){
+		if (isEmpilable(ctc)){
 			((PTasDeCartesColorees) p).c2p_showEmpilable();
 		}
 		else {
@@ -69,17 +48,22 @@ public class CTasDeCartesColorees extends TasDeCartesColorees implements ICTasDe
 		}
 	}
 	
-	public void p2c_dragExit(CCarte cc){
+	public void p2c_dragExit(CTasDeCartes ctc){
 		((PTasDeCartesColorees) p).c2p_showNeutre();
 	}
 	
-	public void p2c_drop(CCarte cc){
-		if (isEmpilable(cc)){
-			empiler(cc);
-			((PTasDeCartesColorees) p).c2p_dropOK();
-		}
-		else {
-			((PTasDeCartesColorees) p).c2p_dropKO();
+	public void p2c_drop(CTasDeCartes ctc){
+		try {
+			if (ctc.getNombre() == 1 && isEmpilable(ctc.getSommet())){// isEmpilable(Tas t) ne fonctionne pas :/
+				empiler(ctc); // En revanche, le empiler(Tas t) fonctionne...
+				((PTasDeCartesColorees) p).c2p_dropOK();
+			}
+			else {
+				((PTasDeCartesColorees) p).c2p_dropKO();
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		((PTasDeCartesColorees) p).c2p_showNeutre();
 	}

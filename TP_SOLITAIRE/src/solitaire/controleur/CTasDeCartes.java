@@ -38,15 +38,5 @@ public class CTasDeCartes extends TasDeCartes implements ICTasDeCartes {
 		return p;
 	}
 
-	@Override
-	public void beginDND() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void endDND() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 }
