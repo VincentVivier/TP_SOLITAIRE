@@ -28,7 +28,6 @@ public class CSabot extends Sabot {
 			p.activerRetournerCarte();
 			p.desactiverRetournerTas();
 		}
-		System.out.println("SET RESERVE !!!");
 	}
 	
 	public void retourner() throws Exception{
@@ -51,7 +50,6 @@ public class CSabot extends Sabot {
 				p.activerRetournerTas();
 				break;
 			}
-			System.out.println("RETOURNER " + (i+1) + " CARTES !!!");
 		}
 	}
 	
@@ -60,7 +58,6 @@ public class CSabot extends Sabot {
 		if (isRetournable()){
 			p.desactiverRetournerTas();
 		}
-		System.out.println("DEPILER !!!");
 	}
 	
 	// gestion Dnd source

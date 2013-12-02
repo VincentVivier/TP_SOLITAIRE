@@ -8,7 +8,7 @@ import solitaire.presentation.PTasDeCartesColorees;
 
 public class CTasDeCartesColorees extends TasDeCartesColorees implements ICTasDeCartes {
 	
-	PTasDeCartes p;
+	PTasDeCartesColorees p;
 
 	public CTasDeCartesColorees(String nom, int couleur, CUsine u) {
 		super(nom, couleur, u);
@@ -40,31 +40,36 @@ public class CTasDeCartesColorees extends TasDeCartesColorees implements ICTasDe
 	}
 	
 	public void p2c_dragEnter(CTasDeCartes ctc){
-		if (isEmpilable(ctc)){
-			((PTasDeCartesColorees) p).c2p_showEmpilable();
-		}
-		else {
-			((PTasDeCartesColorees) p).c2p_showNonEmpilable();
+		try {
+			if (ctc.getNombre() == 1 && isEmpilable(ctc.getSommet())){ // isEmpilable(Tas t) renvoie tjrs vrai...
+				p.c2p_showEmpilable();
+			}
+			else {
+				p.c2p_showNonEmpilable();
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
 	public void p2c_dragExit(CTasDeCartes ctc){
-		((PTasDeCartesColorees) p).c2p_showNeutre();
+		p.c2p_showNeutre();
 	}
 	
 	public void p2c_drop(CTasDeCartes ctc){
 		try {
 			if (ctc.getNombre() == 1 && isEmpilable(ctc.getSommet())){// isEmpilable(Tas t) ne fonctionne pas :/
 				empiler(ctc); // En revanche, le empiler(Tas t) fonctionne...
-				((PTasDeCartesColorees) p).c2p_dropOK();
+				p.c2p_dropOK();
 			}
 			else {
-				((PTasDeCartesColorees) p).c2p_dropKO();
+				p.c2p_dropKO();
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		((PTasDeCartesColorees) p).c2p_showNeutre();
+		p.c2p_showNeutre();
 	}
 }

@@ -53,7 +53,7 @@ public class CColonne extends Colonne {
 						
 						// Création du Tas de cartes à déplacer
 						ctc = new CTasDeCartes("deplacees", null);
-						ctc.getPresentation().setDxDy(0, 15);
+						ctc.getPresentation().setDxDy(0, 25);
 						
 						// Ajout des cartes dans le tas à déplacer
 						for (int j = i ; j != 0 ; j--){

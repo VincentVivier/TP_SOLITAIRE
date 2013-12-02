@@ -19,6 +19,7 @@ import solitaire.controleur.CTasDeCartesColorees;
 public class PTasDeCartesColorees extends PTasDeCartes{
 
 	private static final long serialVersionUID = 1L;
+	private static Color oldColor;
 	
 	CTasDeCartesColorees c;
 	
@@ -31,7 +32,7 @@ public class PTasDeCartesColorees extends PTasDeCartes{
 		super(c);
 		this.c = c;
 		
-		setPreferredSize(new Dimension(72, 96));
+		setPreferredSize(new Dimension(72+8, 96+8));
 		setSize(getPreferredSize());
 		
 		setBackground(Color.MAGENTA);
@@ -41,6 +42,14 @@ public class PTasDeCartesColorees extends PTasDeCartes{
 		//Gestion DnD
 		dt = new DropTarget(this, new MyDropTargetListener());
 		// fin gestion DnD
+	}
+	
+	// Empile les cartes centrées selon x et y
+	public void empiler(PCarte pc){
+		pc.setLocation((int) ((this.getSize().getWidth()-72)/2), 
+						(int) ((this.getSize().getHeight()-96)/2));
+		add(pc, 0);
+		repaint(); // Nécessaire sinon mauvais placement des cartes
 	}
 	
 	// gestion DnD
@@ -55,15 +64,17 @@ public class PTasDeCartesColorees extends PTasDeCartes{
 	}
 	
 	public void c2p_showEmpilable(){
+		oldColor = getBackground();
 		setBackground(Color.green);
 	}
 	
 	public void c2p_showNonEmpilable(){
+		oldColor = getBackground();
 		setBackground(Color.red);
 	}
 	
 	public void c2p_showNeutre(){
-		setBackground(null);
+		setBackground(oldColor);
 	}
 	
 	class MyDropTargetListener implements DropTargetListener{

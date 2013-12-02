@@ -40,7 +40,6 @@ public class PSabot extends JPanel {
 	//fin gestion Dnd
 
 	public PSabot(CSabot c, PTasDeCartes cachees, PTasDeCartes visibles) {
-		//TODO
 		this.c = c;
 		this.cachees = cachees;
 		this.visibles = visibles;
@@ -91,21 +90,6 @@ public class PSabot extends JPanel {
 	public void effacerVisibles(){
 		visibles.removeAll();
 	}
-	
-	// gestion DnD
-	public void c2p_debutDnDKO(CTasDeCartes ct){
-		// TODO Ajouter quelque chose plus tard si besoin
-	}
-	
-	public void c2p_debutDnDOK(CTasDeCartes ct){
-		ds.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, ct.getPresentation(), myDSL);
-		ptcMove = ct.getPresentation();
-		
-		
-		
-		getParent().add(ct.getPresentation(), 0);
-	}
-	// fin gestion DnD
 	
 	class RetournerTasListener implements MouseListener {
 
@@ -176,6 +160,19 @@ public class PSabot extends JPanel {
 	}
 	
 	// Gestion Dnd source
+	
+	public void c2p_debutDnDKO(CTasDeCartes ct){
+		// TODO Ajouter quelque chose plus tard si besoin
+	}
+	
+	public void c2p_debutDnDOK(CTasDeCartes ct){
+		ds.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, ct.getPresentation(), myDSL);
+		ptcMove = ct.getPresentation();
+		// Ajout du panel à déplacer
+		ct.getPresentation().setSize(72, 96);
+		getRootPane().add(ct.getPresentation(), 0);
+	}
+	
 	class MyDragGestureListener implements DragGestureListener{
 
 		@Override
@@ -222,7 +219,8 @@ public class PSabot extends JPanel {
 		@Override
 		public void dragDropEnd(DragSourceDropEvent dsde) {
 			c.p2c_dragDropEnd(dsde.getDropSuccess());
-			repaint();
+			getRootPane().remove(ptcMove);
+			getRootPane().repaint();
 		}
 		
 	}
@@ -231,6 +229,7 @@ public class PSabot extends JPanel {
 
 		@Override
 		public void dragMouseMoved(DragSourceDragEvent dsde) {
+		//	System.out.println("Curseur courant : x= " + dsde.getX() + " y= " + dsde.getY());
 			ptcMove.setLocation(dsde.getX()-( ptcMove.getWidth()/2),
 								dsde.getY() - getRootPane().getParent().getY() - origin.y - 25);
 		}

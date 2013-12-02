@@ -21,10 +21,12 @@ public class CSolitaire extends Solitaire {
 		for (int i = 0 ; i < pilesColorees.length ; i++){
 			ptcc[i] = (PTasDeCartesColorees)((CTasDeCartesColorees)pilesColorees[i]).getPresentation();
 		}
+		
 		// Récupération des présentations des colonnes
 		PColonne[] ptca = new PColonne[pilesAlternees.length];
 		for (int i = 0 ; i < pilesAlternees.length ; i++){
 			ptca[i] = (PColonne)((CColonne)pilesAlternees[i]).getPresentation();
+			ptca[i].setAffichage();
 		}
 		
 		// Création de la fenetre avec tous les composants nécessaires

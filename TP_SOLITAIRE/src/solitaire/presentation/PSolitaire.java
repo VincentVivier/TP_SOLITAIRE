@@ -47,6 +47,7 @@ public class PSolitaire extends JFrame {
 		for (int i = 0 ; i < ptcc.length ; i++){
 			face = new JLabel(new ImageIcon(ClassLoader.getSystemResource("solitaire/cartesCSHD/CarteInit" + (i+1) + ".gif")));
 			face.setSize(72, 96);
+			face.setLocation(4, 4);
 			ptcc[i].add(face, -1);
 			pCC.add(ptcc[i]);
 		}

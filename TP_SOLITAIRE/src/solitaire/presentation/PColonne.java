@@ -37,13 +37,14 @@ public class PColonne extends JPanel {
 	RetournerCarteListener rcl;
 	PTasDeCartes cachees;
 	PTasDeCartes visibles;
+	Color oldColor;
 	
 	//Gestion DnD source
 	DragSource ds;
 	DragSourceListener myDSL;
 	DragSourceMotionListener myDSML;
 	DragGestureEvent theInitialEvent;
-	PCarte pcMove;
+	PTasDeCartes ptcMove;
 	Point origin;
 	
 	// Gestion Dnd drop
@@ -56,20 +57,26 @@ public class PColonne extends JPanel {
 		this.cachees = cachees;
 		this.visibles = visibles;
 		
+		setLayout(null); // Pour pouvoir jouer avec le déplacement des panels de cartes
+		
+		cachees.setDxDy(0, 15);
+		visibles.setDxDy(0, 25);
+		
 		add(cachees);
-		add(visibles);
+		add(visibles, 0);
 
-		setPreferredSize(new Dimension(80, 600));
+		setPreferredSize(new Dimension(72 + 8, 600));
 		setSize(getPreferredSize());
 		
 		cachees.setBackground(Color.green);
 		visibles.setBackground(Color.yellow);
+		visibles.setOpaque(false);
 		
-		cachees.setPreferredSize(new Dimension(100, 200));
+		visibles.setPreferredSize(new Dimension(72, 400));
+		visibles.setSize(getPreferredSize());
+		
+		cachees.setPreferredSize(new Dimension(72, 200));
 		cachees.setSize(getPreferredSize());
-		
-		cachees.setDxDy(0, 15);
-		visibles.setDxDy(0, 25);
 		
 		rcl = new RetournerCarteListener();
 		
@@ -85,12 +92,17 @@ public class PColonne extends JPanel {
 		// fin Gestion DnD
 	}
 	
+	public void setAffichage(){
+		visibles.setLocation(0, cachees.getComponentCount()*cachees.dy);
+		System.out.println("Taille décalage !!! " + cachees.getComponentCount()*cachees.dy);
+	}
+	
 	public void activerRetournerCarte(){
-		cachees.addMouseListener(rcl);
+		visibles.addMouseListener(rcl);
 	}
 	
 	public void desactiverRetournerCarte(){
-		cachees.removeMouseListener(rcl);
+		visibles.removeMouseListener(rcl);
 	}
 	
 	class RetournerCarteListener implements MouseListener {
@@ -99,6 +111,8 @@ public class PColonne extends JPanel {
 		public void mouseClicked(MouseEvent e) {
 			try {
 				c.retournerCarte();
+				setAffichage(); // mise à jour de l'affihage
+				repaint();
 			} catch (Exception e1) {
 				System.err.println("Tas impossible à retourner.");
 				e1.printStackTrace();
@@ -133,13 +147,15 @@ public class PColonne extends JPanel {
 	
 	// gestion DnD source
 	public void c2p_debutDnDKO(CCarte cc){
-		// TODO Ajouter quelque chose plus tard si besoin
 		System.out.println("tout est KOOOOOOOOO");
 	}
 	
 	public void c2p_debutDndOK(CTasDeCartes ct){
 		ds.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, ct.getPresentation(), myDSL);
-		getParent().add(ct.getPresentation(), 0);
+		ptcMove = ct.getPresentation();
+		// Ajout du panel à déplacer
+		ptcMove.setSize(72, ptcMove.getComponentCount()*25 + 71);
+		getRootPane().add(ct.getPresentation(), 0);
 	}
 	
 	class MyDragGestureListener implements DragGestureListener{
@@ -147,13 +163,11 @@ public class PColonne extends JPanel {
 		@Override
 		public void dragGestureRecognized(DragGestureEvent dge) {
 			theInitialEvent = dge;
-			pcMove = null;
 			CCarte cc = null;
 			try{
 				origin = dge.getDragOrigin();
-				pcMove = (PCarte)visibles.getComponentAt(origin);
-				cc = pcMove.getControle();
-				System.out.println("Carte a deplacer : " + pcMove.toString());
+				PCarte pc = (PCarte)visibles.getComponentAt(origin);
+				cc = pc.getControle();
 			}catch (Exception e){}
 			c.p2c_debutDnd(cc);
 		}
@@ -189,9 +203,9 @@ public class PColonne extends JPanel {
 		@Override
 		public void dragDropEnd(DragSourceDropEvent dsde) {
 			c.p2c_dragDropEnd(dsde.getDropSuccess());
-			repaint();
+			getRootPane().remove(ptcMove);
+			getRootPane().repaint();
 		}
-		
 	}
 	
 	class MyDragSourceMotionListener implements DragSourceMotionListener {
@@ -201,7 +215,7 @@ public class PColonne extends JPanel {
 //			System.out.println(origin.x + " : " + origin.y);
 //			pcMove.setLocation((1+dsde.getX()) - getRootPane().getParent().getX() - origin.x,
 //					(1+dsde.getY()) - visibles.getY() + origin.y);
-			pcMove.setLocation(dsde.getX()-(pcMove.getWidth()/2),
+			ptcMove.setLocation(dsde.getX()-(ptcMove.getWidth()/2),
 					dsde.getY() - getRootPane().getParent().getY() - origin.y - 25);
 		}
 		
@@ -219,15 +233,17 @@ public class PColonne extends JPanel {
 	}
 	
 	public void c2p_showEmpilable(){
-		setBackground(Color.green);
+		oldColor = visibles.getBackground();
+		visibles.setBackground(Color.green);
 	}
 	
 	public void c2p_showNonEmpilable(){
-		setBackground(Color.red);
+		oldColor = visibles.getBackground();
+		visibles.setBackground(Color.red);
 	}
 	
 	public void c2p_showNeutre(){
-		setBackground(null);
+		visibles.setBackground(oldColor);
 	}
 	
 	class MyDropTargetListener implements DropTargetListener{

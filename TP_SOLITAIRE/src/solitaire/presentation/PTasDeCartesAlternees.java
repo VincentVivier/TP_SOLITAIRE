@@ -1,8 +1,6 @@
 package solitaire.presentation;
 
 import java.awt.Color;
-import java.awt.Dimension;
-
 import solitaire.controleur.CTasDeCartesAlternees;
 
 public class PTasDeCartesAlternees extends PTasDeCartes {
@@ -17,7 +15,12 @@ public class PTasDeCartesAlternees extends PTasDeCartes {
 		
 		setBackground(Color.ORANGE);
 		
-		setPreferredSize(new Dimension(100, 400));
-		setSize(getPreferredSize());
+	}
+	
+	// Empile les cartes centrées selon x et décalées suivant le nombre de composants sur y
+	public void empiler(PCarte pc){
+		pc.setLocation((int) ((this.getSize().getWidth()-72)/2), getComponentCount()*dy);
+		add(pc, 0);
+		repaint(); // Nécessaire sinon mauvais placement des cartes
 	}
 }
