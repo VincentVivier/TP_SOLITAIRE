@@ -24,6 +24,7 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 
 import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
 
 import solitaire.controleur.CCarte;
 import solitaire.controleur.CColonne;
@@ -58,6 +59,9 @@ public class PColonne extends JPanel {
 		this.visibles = visibles;
 		
 		setLayout(null); // Pour pouvoir jouer avec le déplacement des panels de cartes
+		setOpaque(false);
+		setBorder(new javax.swing.border.BevelBorder(BevelBorder.LOWERED));
+		setBackground(new Color(50, 50, 255));
 		
 		cachees.setDxDy(0, 15);
 		visibles.setDxDy(0, 25);
@@ -65,18 +69,17 @@ public class PColonne extends JPanel {
 		add(cachees);
 		add(visibles, 0);
 
-		setPreferredSize(new Dimension(72 + 8, 600));
+		setPreferredSize(new Dimension(72, 600));
 		setSize(getPreferredSize());
 		
-		cachees.setBackground(Color.green);
-		visibles.setBackground(Color.yellow);
+		cachees.setBackground(Color.red);
+		visibles.setBackground(Color.CYAN);
 		visibles.setOpaque(false);
+		cachees.setOpaque(false);
 		
-		visibles.setPreferredSize(new Dimension(72, 400));
-		visibles.setSize(getPreferredSize());
+		visibles.setSize(72, 600);
 		
-		cachees.setPreferredSize(new Dimension(72, 200));
-		cachees.setSize(getPreferredSize());
+		cachees.setSize(72, 200);
 		
 		rcl = new RetournerCarteListener();
 		
@@ -94,6 +97,7 @@ public class PColonne extends JPanel {
 	
 	public void setAffichage(){
 		visibles.setLocation(0, cachees.getComponentCount()*cachees.dy);
+	//	visibles.setSize(80, visibles.getComponentCount()*visibles.dy + 71);
 		System.out.println("Taille décalage !!! " + cachees.getComponentCount()*cachees.dy);
 	}
 	
@@ -212,11 +216,9 @@ public class PColonne extends JPanel {
 
 		@Override
 		public void dragMouseMoved(DragSourceDragEvent dsde) {
-//			System.out.println(origin.x + " : " + origin.y);
-//			pcMove.setLocation((1+dsde.getX()) - getRootPane().getParent().getX() - origin.x,
-//					(1+dsde.getY()) - visibles.getY() + origin.y);
-			ptcMove.setLocation(dsde.getX()-(ptcMove.getWidth()/2),
+			ptcMove.setLocation(dsde.getX() - getRootPane().getParent().getX() - origin.x,
 					dsde.getY() - getRootPane().getParent().getY() - origin.y - 25);
+			getRootPane().repaint();
 		}
 		
 	}
@@ -235,15 +237,18 @@ public class PColonne extends JPanel {
 	public void c2p_showEmpilable(){
 		oldColor = visibles.getBackground();
 		visibles.setBackground(Color.green);
+		visibles.setOpaque(true);
 	}
 	
 	public void c2p_showNonEmpilable(){
 		oldColor = visibles.getBackground();
 		visibles.setBackground(Color.red);
+		visibles.setOpaque(true);
 	}
 	
 	public void c2p_showNeutre(){
 		visibles.setBackground(oldColor);
+		visibles.setOpaque(false);
 	}
 	
 	class MyDropTargetListener implements DropTargetListener{

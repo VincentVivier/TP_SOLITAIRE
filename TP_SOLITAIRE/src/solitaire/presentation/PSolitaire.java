@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
 
 import solitaire.controleur.CSolitaire;
 
@@ -29,21 +30,22 @@ public class PSolitaire extends JFrame {
 		
 		setPreferredSize(new Dimension(750, 700));
 		setSize(this.getPreferredSize());
-	//	setResizable(false);
+		getContentPane().setBackground(new Color(0, 0, 250));
 		
 		
 		JPanel pNord = new JPanel();
 		pNord.setLayout(new BorderLayout());
-		pNord.setBackground(Color.PINK);
+		pNord.setOpaque(false);
 		
 		// Ajout du sabot
-		sabot.setBackground(Color.black);
+		sabot.setOpaque(false);
 		pNord.add(sabot, BorderLayout.WEST);
 		
 		// Ajout des tas de cartes colorés avec le font correspondant
 		JLabel face;
 		JPanel pCC = new JPanel();
-		pCC.setBackground(Color.BLUE);
+		pCC.setBorder(new javax.swing.border.BevelBorder(BevelBorder.RAISED));
+		pCC.setBackground(new Color(0, 0, 200));
 		for (int i = 0 ; i < ptcc.length ; i++){
 			face = new JLabel(new ImageIcon(ClassLoader.getSystemResource("solitaire/cartesCSHD/CarteInit" + (i+1) + ".gif")));
 			face.setSize(72, 96);
@@ -56,7 +58,8 @@ public class PSolitaire extends JFrame {
 		
 		// Ajout des colonnes
 		JPanel pColonnes = new JPanel();
-		pColonnes.setBackground(Color.ORANGE);
+		pColonnes.setBackground(Color.YELLOW);
+		pColonnes.setOpaque(false);
 		for (int i = 0 ; i < ptca.length ; i++){
 			pColonnes.add(ptca[i], BorderLayout.CENTER);
 		}

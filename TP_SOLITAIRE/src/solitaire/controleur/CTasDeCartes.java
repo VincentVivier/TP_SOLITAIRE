@@ -14,6 +14,10 @@ public class CTasDeCartes extends TasDeCartes implements ICTasDeCartes {
 		p = new PTasDeCartes(this);
 	}
 	
+	public PTasDeCartes getPresentation(){
+		return p;
+	}
+	
 	public void depiler() throws Exception{
 		Carte s = getSommet();
 		super.depiler();
@@ -33,10 +37,4 @@ public class CTasDeCartes extends TasDeCartes implements ICTasDeCartes {
 			}
 		}
 	}
-	
-	public PTasDeCartes getPresentation(){
-		return p;
-	}
-
-	
 }

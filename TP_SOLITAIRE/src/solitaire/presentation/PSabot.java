@@ -1,5 +1,6 @@
 package solitaire.presentation;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.dnd.DnDConstants;
@@ -15,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
 
 import solitaire.controleur.CCarte;
 import solitaire.controleur.CSabot;
@@ -59,6 +61,12 @@ public class PSabot extends JPanel {
 		cachees.setDxDy(0, 0);
 		visibles.setDxDy(25, 0);
 		
+		visibles.setBackground(new Color(50, 50, 255));
+		cachees.setBackground(new Color(0, 0, 200));
+		
+		cachees.setBorder(new javax.swing.border.BevelBorder(BevelBorder.RAISED));
+		visibles.setBorder(new javax.swing.border.BevelBorder(BevelBorder.LOWERED));
+		
 		rtl = new RetournerTasListener();
 		rcl = new RetournerCarteListener();
 		
@@ -71,6 +79,9 @@ public class PSabot extends JPanel {
 		// fin Gestion DnD
 	}
 	
+	// Gestion curseur
+	
+	
 	public void activerRetournerCarte(){
 		cachees.addMouseListener(rcl);
 	}
@@ -80,11 +91,11 @@ public class PSabot extends JPanel {
 	}
 	
 	public void activerRetournerTas(){
-		visibles.addMouseListener(rtl);
+		cachees.addMouseListener(rtl);
 	}
 	
 	public void desactiverRetournerTas(){
-		visibles.removeMouseListener(rtl);
+		cachees.removeMouseListener(rtl);
 	}
 	
 	public void effacerVisibles(){
@@ -97,6 +108,7 @@ public class PSabot extends JPanel {
 		public void mouseClicked(MouseEvent e) {
 			try {
 				c.retourner();
+				System.out.println("Demande retourner tas sabot...................");
 			} catch (Exception e1) {
 				System.err.println("Tas impossible à retourner.");
 				e1.printStackTrace();
@@ -229,8 +241,8 @@ public class PSabot extends JPanel {
 
 		@Override
 		public void dragMouseMoved(DragSourceDragEvent dsde) {
-		//	System.out.println("Curseur courant : x= " + dsde.getX() + " y= " + dsde.getY());
-			ptcMove.setLocation(dsde.getX()-( ptcMove.getWidth()/2),
+			System.out.println("Curseur courant : x= " + dsde.getX() + " y= " + dsde.getY());
+			ptcMove.setLocation(dsde.getX() - getRootPane().getParent().getX() - origin.x,
 								dsde.getY() - getRootPane().getParent().getY() - origin.y - 25);
 		}
 		

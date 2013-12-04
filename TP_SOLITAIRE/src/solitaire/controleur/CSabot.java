@@ -8,7 +8,7 @@ public class CSabot extends Sabot {
 
 	PSabot p;
 	
-	// gestion DnD
+	// gestion DnD source
 	CTasDeCartes ct;
 	//fin gestion DnD
 	
@@ -45,7 +45,6 @@ public class CSabot extends Sabot {
 		for (int i = 0 ; i < 3 ; i++){ // retourner 3 cartes
 			super.retournerCarte();
 			if (isRetournable()){
-				System.out.println("cest retournable !");
 				p.desactiverRetournerCarte();
 				p.activerRetournerTas();
 				break;

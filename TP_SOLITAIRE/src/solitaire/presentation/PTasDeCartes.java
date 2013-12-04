@@ -43,6 +43,8 @@ public class PTasDeCartes extends JPanel implements Transferable {
 		this.dy = dy;
 	}
 
+	// Gestion DnD
+	
 	@Override
 	public DataFlavor[] getTransferDataFlavors() {
 		// TODO Auto-generated method stub

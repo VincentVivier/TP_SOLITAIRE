@@ -18,9 +18,10 @@ public class PTasDeCartesAlternees extends PTasDeCartes {
 	}
 	
 	// Empile les cartes centrées selon x et décalées suivant le nombre de composants sur y
-	public void empiler(PCarte pc){
-		pc.setLocation((int) ((this.getSize().getWidth()-72)/2), getComponentCount()*dy);
-		add(pc, 0);
-		repaint(); // Nécessaire sinon mauvais placement des cartes
-	}
+//	public void empiler(PCarte pc){
+//		pc.setLocation(getComponentCount()*dx, getComponentCount()*dy);
+//	//	setSize(80, getComponentCount()*dy + 71);
+//		add(pc, 0);
+//		repaint(); // Nécessaire sinon mauvais placement des cartes
+//	}
 }

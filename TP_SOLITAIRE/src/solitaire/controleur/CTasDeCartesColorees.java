@@ -10,6 +10,10 @@ public class CTasDeCartesColorees extends TasDeCartesColorees implements ICTasDe
 	
 	PTasDeCartesColorees p;
 
+	// gestion DnD source
+	CTasDeCartes ct;
+	//fin gestion DnD
+	
 	public CTasDeCartesColorees(String nom, int couleur, CUsine u) {
 		super(nom, couleur, u);
 		p = new PTasDeCartesColorees(this);
@@ -38,6 +42,48 @@ public class CTasDeCartesColorees extends TasDeCartesColorees implements ICTasDe
 			}
 		}
 	}
+	
+	// Gestion curseur
+	
+	public void p2c_sourisDétectée(){
+		if (!isVide()){
+			p.showCliquable();
+		}
+	}
+	
+	// fin gestion curseur
+	
+	// gestion Dnd source
+	
+	public void p2c_debutDnd(CCarte cc){
+		try {
+			if (cc != null && cc == getSommet()){
+				depiler();
+				ct = new CTasDeCartes("carteSabot", null);
+				ct.getPresentation().setDxDy(0, 0);
+				ct.empiler(cc);
+				p.c2p_debutDndOK(ct);
+			}
+			else{
+				p.c2p_debutDnDKO(cc);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	public void p2c_dragDropEnd(boolean success){
+		System.out.println("Success drop end : " + success);
+		if(!success){
+			try {
+				empiler(ct);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	// Gestion DnD drop
 	
 	public void p2c_dragEnter(CTasDeCartes ctc){
 		try {
