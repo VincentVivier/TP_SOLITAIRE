@@ -33,11 +33,11 @@ public class CTasDeCartesColorees extends TasDeCartesColorees implements ICTasDe
 		if (isEmpilable(c)){
 			super.empiler(c);
 			try {
-				if (c == getSommet()){ 						  // vérification que l'application a bien fait son taf
+				if (c == getSommet()){ 						  // vï¿½rification que l'application a bien fait son taf
 					p.empiler(((CCarte) c).getPresentation());//avant de l'afficher
 				}
 			} catch (Exception e) {
-				System.err.print("Exception relevée lors d'un empilage de " + c.toString());
+				System.err.print("Exception relevï¿½e lors d'un empilage de " + c.toString());
 				e.printStackTrace();
 			}
 		}
@@ -45,7 +45,7 @@ public class CTasDeCartesColorees extends TasDeCartesColorees implements ICTasDe
 	
 	// Gestion curseur
 	
-	public void p2c_sourisDétectée(){
+	public void p2c_sourisDÃ©tectÃ©e(){
 		if (!isVide()){
 			p.showCliquable();
 		}
