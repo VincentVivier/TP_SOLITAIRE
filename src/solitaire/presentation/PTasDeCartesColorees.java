@@ -95,7 +95,7 @@ public class PTasDeCartesColorees extends PTasDeCartes{
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
-			c.p2c_sourisDétectée();
+			c.p2c_sourisDetectee();
 		}
 		
 	}
