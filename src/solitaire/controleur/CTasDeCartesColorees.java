@@ -45,7 +45,7 @@ public class CTasDeCartesColorees extends TasDeCartesColorees implements ICTasDe
 	
 	// Gestion curseur
 	
-	public void p2c_sourisDétectée(){
+	public void p2c_sourisDetectee(){
 		if (!isVide()){
 			p.showCliquable();
 		}
