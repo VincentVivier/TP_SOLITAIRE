@@ -41,7 +41,7 @@ public class PSolitaire extends JFrame {
 		sabot.setOpaque(false);
 		pNord.add(sabot, BorderLayout.WEST);
 		
-		// Ajout des tas de cartes colorés avec le font correspondant
+		// Ajout des tas de cartes colorÃ©s avec le font correspondant
 		JLabel face;
 		JPanel pCC = new JPanel();
 		pCC.setBorder(new javax.swing.border.BevelBorder(BevelBorder.RAISED));

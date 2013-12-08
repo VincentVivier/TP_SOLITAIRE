@@ -58,7 +58,7 @@ public class PColonne extends JPanel {
 		this.cachees = cachees;
 		this.visibles = visibles;
 		
-		setLayout(null); // Pour pouvoir jouer avec le déplacement des panels de cartes
+		setLayout(null); // Pour pouvoir jouer avec le dÃ©placement des panels de cartes
 		setOpaque(false);
 		setBorder(new javax.swing.border.BevelBorder(BevelBorder.LOWERED));
 		setBackground(new Color(50, 50, 255));
@@ -98,7 +98,7 @@ public class PColonne extends JPanel {
 	public void setAffichage(){
 		visibles.setLocation(0, cachees.getComponentCount()*cachees.dy);
 	//	visibles.setSize(80, visibles.getComponentCount()*visibles.dy + 71);
-		System.out.println("Taille décalage !!! " + cachees.getComponentCount()*cachees.dy);
+		System.out.println("Taille dï¿½calage !!! " + cachees.getComponentCount()*cachees.dy);
 	}
 	
 	public void activerRetournerCarte(){
@@ -115,10 +115,10 @@ public class PColonne extends JPanel {
 		public void mouseClicked(MouseEvent e) {
 			try {
 				c.retournerCarte();
-				setAffichage(); // mise à jour de l'affihage
+				setAffichage(); // mise Ã  jour de l'affihage
 				repaint();
 			} catch (Exception e1) {
-				System.err.println("Tas impossible à retourner.");
+				System.err.println("Tas impossible ï¿½ retourner.");
 				e1.printStackTrace();
 			}
 			
@@ -157,7 +157,7 @@ public class PColonne extends JPanel {
 	public void c2p_debutDndOK(CTasDeCartes ct){
 		ds.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, ct.getPresentation(), myDSL);
 		ptcMove = ct.getPresentation();
-		// Ajout du panel à déplacer
+		// Ajout du panel ï¿½ dï¿½placer
 		ptcMove.setSize(72, ptcMove.getComponentCount()*25 + 71);
 		getRootPane().add(ct.getPresentation(), 0);
 	}

@@ -28,11 +28,11 @@ public class CTasDeCartesAlternees extends TasDeCartesAlternees implements ICTas
 	public void empiler(Carte c) {
 		super.empiler(c);
 		try {
-			if (c == getSommet()){ 						  // vérification que l'application a bien fait son taf
+			if (c == getSommet()){ 						  // vÃ©rification que l'application a bien fait son taf
 				p.empiler(((CCarte) c).getPresentation());//avant de l'afficher
 			}
 		} catch (Exception e) {
-			System.err.print("Exception relevée lors d'un empilage de " + c.toString());
+			System.err.print("Exception relevï¿½e lors d'un empilage de " + c.toString());
 			e.printStackTrace();
 		}
 	}

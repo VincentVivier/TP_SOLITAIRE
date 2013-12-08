@@ -33,7 +33,7 @@ public class CTasDeCartesColorees extends TasDeCartesColorees implements ICTasDe
 		if (isEmpilable(c)){
 			super.empiler(c);
 			try {
-				if (c == getSommet()){ 						  // v�rification que l'application a bien fait son taf
+				if (c == getSommet()){ 						  // vérification que l'application a bien fait son taf
 					p.empiler(((CCarte) c).getPresentation());//avant de l'afficher
 				}
 			} catch (Exception e) {

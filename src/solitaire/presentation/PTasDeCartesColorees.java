@@ -80,7 +80,7 @@ public class PTasDeCartesColorees extends PTasDeCartes{
 		pc.setLocation((int) ((this.getSize().getWidth()-72)/2), 
 						(int) ((this.getSize().getHeight()-96)/2));
 		add(pc, 0);
-		repaint(); // N�cessaire sinon mauvais placement des cartes
+		repaint(); // Nécessaire sinon mauvais placement des cartes
 	}
 	
 	// Gestion du curseur
