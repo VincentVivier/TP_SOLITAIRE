@@ -8,6 +8,12 @@ import solitaire.application.TasDeCartesAlternees;
 import solitaire.application.TasDeCartesColorees;
 import solitaire.application.Usine;
 
+/**
+   * La classe contrôle de l'usine des cartes.
+   * ????????
+   * 
+   * @author Anthony Economides, Vincent Vivier
+   */
 public class CUsine extends Usine {
 
 	
