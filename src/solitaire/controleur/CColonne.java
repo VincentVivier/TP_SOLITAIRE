@@ -1,7 +1,10 @@
 package solitaire.controleur;
 
+import java.awt.Component;
+
 import solitaire.application.Colonne;
 import solitaire.application.Tas;
+import solitaire.presentation.PCarte;
 import solitaire.presentation.PColonne;
 
 /**
@@ -78,6 +81,26 @@ public class CColonne extends Colonne {
 			p.activerRetournerCarte();
 		}
 	}
+	
+	// Gestion curseur
+	
+	public void c2p_sourisDetectee(Component c){
+		try {
+			if (c instanceof PCarte && ((PCarte)c).getControle() == getSommet()){
+				p.showCliquable();
+			}
+			else if (isCarteRetournable()) {
+				p.showCliquable();
+			}
+			else {
+				p.showNonCliquable();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// fin gestion curseur
 	
 	// gestion Dnd source
 	

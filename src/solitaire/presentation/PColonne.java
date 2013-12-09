@@ -1,6 +1,7 @@
 package solitaire.presentation;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
@@ -21,6 +22,7 @@ import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 
 import javax.swing.JPanel;
@@ -58,7 +60,7 @@ public class PColonne extends JPanel {
 		this.cachees = cachees;
 		this.visibles = visibles;
 		
-		setLayout(null); // Pour pouvoir jouer avec le déplacement des panels de cartes
+		setLayout(null); // Pour pouvoir jouer avec le dï¿½placement des panels de cartes
 		setOpaque(false);
 		setBorder(new javax.swing.border.BevelBorder(BevelBorder.LOWERED));
 		setBackground(new Color(50, 50, 255));
@@ -82,6 +84,7 @@ public class PColonne extends JPanel {
 		cachees.setSize(72, 200);
 		
 		rcl = new RetournerCarteListener();
+		visibles.addMouseMotionListener(new GestionCurseur());
 		
 		// Gestion Dnd source
 		myDSL = new MyDragSourceListener() ;
@@ -97,8 +100,7 @@ public class PColonne extends JPanel {
 	
 	public void setAffichage(){
 		visibles.setLocation(0, cachees.getComponentCount()*cachees.dy);
-	//	visibles.setSize(80, visibles.getComponentCount()*visibles.dy + 71);
-		System.out.println("Taille décalage !!! " + cachees.getComponentCount()*cachees.dy);
+		System.out.println("Taille dï¿½calage !!! " + cachees.getComponentCount()*cachees.dy);
 	}
 	
 	public void activerRetournerCarte(){
@@ -115,10 +117,10 @@ public class PColonne extends JPanel {
 		public void mouseClicked(MouseEvent e) {
 			try {
 				c.retournerCarte();
-				setAffichage(); // mise à jour de l'affihage
+				setAffichage(); // mise ï¿½ jour de l'affihage
 				repaint();
 			} catch (Exception e1) {
-				System.err.println("Tas impossible à retourner.");
+				System.err.println("Tas impossible ï¿½ retourner.");
 				e1.printStackTrace();
 			}
 			
@@ -149,6 +151,33 @@ public class PColonne extends JPanel {
 		}
 	}
 	
+	// Gestion curseur
+	
+	class GestionCurseur implements MouseMotionListener {
+
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			c.c2p_sourisDetectee(visibles.getComponentAt(e.getPoint()));
+		}
+		
+	}
+	
+	public void showCliquable(){
+		setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+	}
+	
+	public void showNonCliquable(){
+		setCursor(Cursor.getDefaultCursor());
+	}
+	
+	//fin gestion curseur
+	
 	// gestion DnD source
 	public void c2p_debutDnDKO(CCarte cc){
 		System.out.println("tout est KOOOOOOOOO");
@@ -157,7 +186,7 @@ public class PColonne extends JPanel {
 	public void c2p_debutDndOK(CTasDeCartes ct){
 		ds.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, ct.getPresentation(), myDSL);
 		ptcMove = ct.getPresentation();
-		// Ajout du panel à déplacer
+		// Ajout du panel ï¿½ dï¿½placer
 		ptcMove.setSize(72, ptcMove.getComponentCount()*25 + 71);
 		getRootPane().add(ct.getPresentation(), 0);
 	}
