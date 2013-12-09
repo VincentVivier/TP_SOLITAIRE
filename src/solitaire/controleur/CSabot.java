@@ -1,7 +1,10 @@
 package solitaire.controleur;
 
+import java.awt.Component;
+
 import solitaire.application.Sabot;
 import solitaire.application.Tas;
+import solitaire.presentation.PCarte;
 import solitaire.presentation.PSabot;
 
 /**
@@ -99,6 +102,32 @@ public class CSabot extends Sabot {
 			p.desactiverRetournerTas();
 		}
 	}
+	
+	// Gestion curseur
+	
+	public void c2p_sourisVisiblesDetectee(Component c){
+		try {
+			if (c instanceof PCarte && ((PCarte)c).getControle() == getSommet()){
+				p.showCliquable();
+			}
+			else {
+				p.showNonCliquable();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void c2p_sourisCacheesDetectee(){
+		if (isCarteRetournable()){
+			p.showCliquable();
+		}
+		else {
+			p.showNonCliquable();
+		}
+	}
+	
+	// fin gestion curseur
 	
 	// gestion Dnd source
         

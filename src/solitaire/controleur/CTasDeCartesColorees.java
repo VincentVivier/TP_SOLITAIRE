@@ -49,6 +49,9 @@ public class CTasDeCartesColorees extends TasDeCartesColorees implements ICTasDe
 		if (!isVide()){
 			p.showCliquable();
 		}
+		else {
+			p.showNonCliquable();
+		}
 	}
 	
 	// fin gestion curseur

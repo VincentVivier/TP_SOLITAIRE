@@ -103,6 +103,11 @@ public class PTasDeCartesColorees extends PTasDeCartes{
 	public void showCliquable(){
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
+	
+	public void showNonCliquable(){
+		setCursor(Cursor.getDefaultCursor());
+	}
+	
 	// fin gestion curseur
 	
 	// gestion DnD source

@@ -1,12 +1,8 @@
 package interfacesControle;
 
 /**
-   * Interface que les contrôleurs implémente 
-   * @author Anthony Economides, Vincent Vivier
+   * Interface implémentées par les contrôleurs de TasDeCartesAlternees et Colorees.
    */
 public interface ICTasDeCartes {
 
-//	public void beginDND();
-//	public void endDND();
-	
 }

@@ -19,7 +19,7 @@ public class CColonne extends Colonne {
 	CTasDeCartes ctc;
 	//fin gestion DnD
 	
-        /**
+	/**
         * Constructeur. Crée une colonne, avec un nom et contrôle d'usine
         * comme paramètres. Commande la présentation à afficher cette colonne,
         * et a retourner la dernière carte. 
@@ -28,13 +28,13 @@ public class CColonne extends Colonne {
         * @param u Le contrôle d'usine de cartes utilisé.
         */
 	public CColonne(String nom, CUsine u) {
-		super(nom, u);                                                  //creer colonne en utilisant la classe Colonne
+		super(nom, u);
 		p = new PColonne(this, ((CTasDeCartes)cachees).getPresentation(),
-						((CTasDeCartesAlternees)visibles).getPresentation());       //création de presentation de colonne
+						((CTasDeCartesAlternees)visibles).getPresentation());
 		p.activerRetournerCarte();
 	}
 	
-        /**
+	/**
         * Retourne la présentation de la colonne pour lui passer des commandes.
         * @author Anthony Economides, Vincent Vivier
         * @return La instance de classe présentation de la colonne.
@@ -42,7 +42,7 @@ public class CColonne extends Colonne {
 	public PColonne getPresentation(){
 		return p;
 	}
-        
+	
 	/**
         * ?????????
         * @author Anthony Economides, Vincent Vivier
@@ -55,7 +55,7 @@ public class CColonne extends Colonne {
 		}
 	}
 	
-        /**
+	/**
         * pas sure ??????????????? Commande la presentation à retournér la derniere carte.
         * @author Anthony Economides, Vincent Vivier
         * @throws Exception [exception description]
@@ -67,7 +67,7 @@ public class CColonne extends Colonne {
 		}
 	}
 	
-        /**
+	/**
         * pas sure ??????????????? Serve à depiler le tas.
         * @author Anthony Economides, Vincent Vivier
         * @throws Exception [exception description]
@@ -80,8 +80,8 @@ public class CColonne extends Colonne {
 	}
 	
 	// gestion Dnd source
-        
-        /**
+	
+	/**
         * Gestion (à partir de la présentation au contrôle) du démarrage du Drag et Drop 
         * Plus d'info ????????????????????
         * @author Anthony Economides, Vincent Vivier
@@ -119,7 +119,7 @@ public class CColonne extends Colonne {
 		}	
 	}
 	
-        /**
+	/**
         * Gestion (à partir de la présentation au contrôle) de la fin du Drag et Drop
         * Plus d'info ????????????????????
         * @author Anthony Economides, Vincent Vivier
@@ -132,10 +132,9 @@ public class CColonne extends Colonne {
 		}
 	}
 	
-        
 	// Gestion DnD drop
 	
-        /**
+	/**
         * Gestion (à partir de la présentation au contrôle) de l'entre du cursor à la colonne.
         * Commande la présentation à afficher une astuce au joueur, du fait que la carte peut 
         * être ajouter à cette colonne ou non.  
@@ -151,7 +150,7 @@ public class CColonne extends Colonne {
 		}
 	}
 	
-        /**
+	/**
         * Gestion (à partir de la présentation au contrôle) de la sortie du cursor de la colonne.
         * Commande la présentation à plus afficher l'astuce. 
         * @author Anthony Economides, Vincent Vivier
@@ -161,7 +160,7 @@ public class CColonne extends Colonne {
 		p.c2p_showNeutre();
 	}
 	
-        /**
+	 /**
         * Gestion (à partir de la présentation au contrôle) du drop d'une carte sur la colonne.
         * Si la carte est empilable au tas, il l'empile et commande la présentation a afficher
         * le nouveaux tas/colonne. Sinon c2p_dropKO()???????????

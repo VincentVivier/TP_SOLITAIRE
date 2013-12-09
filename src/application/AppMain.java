@@ -6,15 +6,13 @@ import solitaire.controleur.CUsine;
 
 /**
    * La classe mère de l'application.
-   * Démarre le contrôle de l'usine des cartes, affiche la JFrame de solitaire
+   * Démarre le contrôle de l'usine des cartes, affiche la fenêtre du solitaire
    * et démarre la logique du jeux.
-   * @author Anthony Economides, Vincent Vivier
    */
 public class AppMain {
-        /**
-        * Méthode main
-        * @author Anthony Economides, Vincent Vivier
-        * @param String[] args
+
+   /**
+    * Méthode de lancement.
 	*/
 	public static void main(String[] args) {
 		

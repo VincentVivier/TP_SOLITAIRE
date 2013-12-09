@@ -1,6 +1,7 @@
 package solitaire.presentation;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.dnd.DnDConstants;
@@ -14,6 +15,7 @@ import java.awt.dnd.DragSourceListener;
 import java.awt.dnd.DragSourceMotionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
@@ -70,6 +72,9 @@ public class PSabot extends JPanel {
 		rtl = new RetournerTasListener();
 		rcl = new RetournerCarteListener();
 		
+		visibles.addMouseMotionListener(new GestionCurseurVisibles());
+		cachees.addMouseMotionListener(new GestionCurseurCachees());
+		
 		// Gestion Dnd source
 		myDSL = new MyDragSourceListener() ;
 		ds = new DragSource();
@@ -81,6 +86,45 @@ public class PSabot extends JPanel {
 	
 	// Gestion curseur
 	
+	class GestionCurseurVisibles implements MouseMotionListener {
+
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			c.c2p_sourisVisiblesDetectee(visibles.getComponentAt(e.getPoint()));
+		}
+		
+	}
+	
+	class GestionCurseurCachees implements MouseMotionListener {
+
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			c.c2p_sourisCacheesDetectee();
+		}
+		
+	}
+	
+	public void showCliquable(){
+		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+	}
+	
+	public void showNonCliquable(){
+		setCursor(Cursor.getDefaultCursor());
+	}
+	
+	// fin gestion curseur
 	
 	public void activerRetournerCarte(){
 		cachees.addMouseListener(rcl);
@@ -110,7 +154,7 @@ public class PSabot extends JPanel {
 				c.retourner();
 				System.out.println("Demande retourner tas sabot...................");
 			} catch (Exception e1) {
-				System.err.println("Tas impossible à retourner.");
+				System.err.println("Tas impossible ï¿½ retourner.");
 				e1.printStackTrace();
 			}
 		}
@@ -144,7 +188,7 @@ public class PSabot extends JPanel {
 			try {
 				c.retournerCarte();
 			} catch (Exception e1) {
-				System.err.println("Carte impossible à retourner.");
+				System.err.println("Carte impossible ï¿½ retourner.");
 				e1.printStackTrace();
 			}
 		}
@@ -180,7 +224,7 @@ public class PSabot extends JPanel {
 	public void c2p_debutDnDOK(CTasDeCartes ct){
 		ds.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, ct.getPresentation(), myDSL);
 		ptcMove = ct.getPresentation();
-		// Ajout du panel à déplacer
+		// Ajout du panel ï¿½ dï¿½placer
 		ct.getPresentation().setSize(72, 96);
 		getRootPane().add(ct.getPresentation(), 0);
 	}
