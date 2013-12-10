@@ -100,7 +100,6 @@ public class PColonne extends JPanel {
 	
 	public void setAffichage(){
 		visibles.setLocation(0, cachees.getComponentCount()*cachees.dy);
-		System.out.println("Taille d�calage !!! " + cachees.getComponentCount()*cachees.dy);
 	}
 	
 	public void activerRetournerCarte(){
@@ -169,7 +168,7 @@ public class PColonne extends JPanel {
 	}
 	
 	public void showCliquable(){
-		setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 	
 	public void showNonCliquable(){
