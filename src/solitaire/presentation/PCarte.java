@@ -78,7 +78,7 @@ public class PCarte extends JPanel implements Transferable{
   }
 
   /**
-   * programme de test : � déplacer dans une classe dédiée aux tests
+   * programme de test : à déplacer dans une classe dédiée aux tests
    * @param args
    */
   public static void main (String args []) {
