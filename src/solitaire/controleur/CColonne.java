@@ -12,7 +12,6 @@ import solitaire.presentation.PColonne;
    * Responsable pour la logique de création d'une colonne, la gestion des drag 
    * et drop des cartes.
    * entre eux, dépilement des tas et setReserve?
-   * @author Anthony Economides, Vincent Vivier
    */
 public class CColonne extends Colonne {
 
@@ -26,7 +25,6 @@ public class CColonne extends Colonne {
         * Constructeur. Crée une colonne, avec un nom et contrôle d'usine
         * comme paramètres. Commande la présentation à afficher cette colonne,
         * et a retourner la dernière carte. 
-        * @author Anthony Economides, Vincent Vivier
         * @param nom Le nom de la colonne.
         * @param u Le contrôle d'usine de cartes utilisé.
         */
@@ -39,7 +37,6 @@ public class CColonne extends Colonne {
 	
 	/**
         * Retourne la présentation de la colonne pour lui passer des commandes.
-        * @author Anthony Economides, Vincent Vivier
         * @return La instance de classe présentation de la colonne.
         */
 	public PColonne getPresentation(){
@@ -48,7 +45,6 @@ public class CColonne extends Colonne {
 	
 	/**
         * ?????????
-        * @author Anthony Economides, Vincent Vivier
         * @param t Le tas de carte à ????????????setReserve.
         */
 	public void setReserve(Tas t){
@@ -60,7 +56,6 @@ public class CColonne extends Colonne {
 	
 	/**
         * pas sure ??????????????? Commande la presentation à retournér la derniere carte.
-        * @author Anthony Economides, Vincent Vivier
         * @throws Exception [exception description]
         */
 	public void retournerCarte() throws Exception{
@@ -72,7 +67,6 @@ public class CColonne extends Colonne {
 	
 	/**
         * pas sure ??????????????? Serve à depiler le tas.
-        * @author Anthony Economides, Vincent Vivier
         * @throws Exception [exception description]
         */
 	public void depiler() throws Exception{
@@ -107,7 +101,6 @@ public class CColonne extends Colonne {
 	/**
         * Gestion (à partir de la présentation au contrôle) du démarrage du Drag et Drop 
         * Plus d'info ????????????????????
-        * @author Anthony Economides, Vincent Vivier
         * @param cc Le contrôle de Carte que ...
         */
 	public void p2c_debutDnd(CCarte cc){
@@ -145,7 +138,6 @@ public class CColonne extends Colonne {
 	/**
         * Gestion (à partir de la présentation au contrôle) de la fin du Drag et Drop
         * Plus d'info ????????????????????
-        * @author Anthony Economides, Vincent Vivier
         * @param success Un boolean qui défini le success du Drag et Drop. true=success
         */
 	public void p2c_dragDropEnd(boolean success){
@@ -161,7 +153,6 @@ public class CColonne extends Colonne {
         * Gestion (à partir de la présentation au contrôle) de l'entre du cursor à la colonne.
         * Commande la présentation à afficher une astuce au joueur, du fait que la carte peut 
         * être ajouter à cette colonne ou non.  
-        * @author Anthony Economides, Vincent Vivier
         * @param ctc [argument description]
         */
 	public void p2c_dragEnter(CTasDeCartes ctc){

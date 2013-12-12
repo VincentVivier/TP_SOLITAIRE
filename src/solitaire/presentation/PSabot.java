@@ -154,7 +154,7 @@ public class PSabot extends JPanel {
 				c.retourner();
 				System.out.println("Demande retourner tas sabot...................");
 			} catch (Exception e1) {
-				System.err.println("Tas impossible � retourner.");
+				System.err.println("Tas impossible à retourner.");
 				e1.printStackTrace();
 			}
 		}
@@ -188,7 +188,7 @@ public class PSabot extends JPanel {
 			try {
 				c.retournerCarte();
 			} catch (Exception e1) {
-				System.err.println("Carte impossible � retourner.");
+				System.err.println("Carte impossible à retourner.");
 				e1.printStackTrace();
 			}
 		}
@@ -224,7 +224,7 @@ public class PSabot extends JPanel {
 	public void c2p_debutDnDOK(CTasDeCartes ct){
 		ds.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, ct.getPresentation(), myDSL);
 		ptcMove = ct.getPresentation();
-		// Ajout du panel � d�placer
+		// Ajout du panel à déplacer
 		ct.getPresentation().setSize(72, 96);
 		getRootPane().add(ct.getPresentation(), 0);
 	}

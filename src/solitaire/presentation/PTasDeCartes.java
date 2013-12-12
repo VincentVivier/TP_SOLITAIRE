@@ -35,7 +35,7 @@ public class PTasDeCartes extends JPanel implements Transferable {
 	public void empiler(PCarte pc){
 		pc.setLocation(getComponentCount()*dx, getComponentCount()*dy);
 		add(pc, 0);
-		repaint(); // Nécessaire sinon mauvais placement des cartes
+		repaint(); // NÃ©cessaire sinon mauvais placement des cartes
 	}
 	
 	public void setDxDy(int dx, int dy){

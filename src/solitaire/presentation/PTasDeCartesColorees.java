@@ -75,12 +75,12 @@ public class PTasDeCartesColorees extends PTasDeCartes{
 		// fin gestion DnD
 	}
 	
-	// Empile les cartes centr�es selon x et y
+	// Empile les cartes centrées selon x et y
 	public void empiler(PCarte pc){
 		pc.setLocation((int) ((this.getSize().getWidth()-72)/2), 
 						(int) ((this.getSize().getHeight()-96)/2));
 		add(pc, 0);
-		repaint(); // N�cessaire sinon mauvais placement des cartes
+		repaint(); // Nécessaire sinon mauvais placement des cartes
 	}
 	
 	// Gestion du curseur
@@ -119,7 +119,7 @@ public class PTasDeCartesColorees extends PTasDeCartes{
 	public void c2p_debutDndOK(CTasDeCartes ct){
 		ds.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, ct.getPresentation(), myDSL);
 		ptcMove = ct.getPresentation();
-		// Ajout du panel � d�placer
+		// Ajout du panel à déplacer
 		ptcMove.setSize(72, ptcMove.getComponentCount()*25 + 71);
 		getRootPane().add(ct.getPresentation(), 0);
 	}

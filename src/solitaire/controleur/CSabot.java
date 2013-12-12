@@ -12,7 +12,6 @@ import solitaire.presentation.PSabot;
    * Responsable pour la logique de création du sabot, la gestion des drag 
    * et drop des cartes, et de la sélection de 3 différentes cartes
    * chaque foi que le joueur clique sur le sabot.
-   * @author Anthony Economides, Vincent Vivier
    */
 public class CSabot extends Sabot {
 
@@ -37,7 +36,6 @@ public class CSabot extends Sabot {
 
         /**
         * Retourne la présentation du sabot pour lui passer des commandes.
-        * @author Anthony Economides, Vincent Vivier
         * @return La instance de classe présentation du sabot.
         */
 	public PSabot getPresentation(){
@@ -46,7 +44,6 @@ public class CSabot extends Sabot {
 	
         /**
         * ?????????
-        * @author Anthony Economides, Vincent Vivier
         * @param t Le tas de carte à ????????????setReserve.
         */
 	public void setReserve(Tas t){
@@ -60,7 +57,6 @@ public class CSabot extends Sabot {
         /**
         * Retourne toutes les cartes quand le joueur arrive à la fin de la liste du sabot.
         * Commande la présentation a afficher une carte retourné(default status).
-        * @author Anthony Economides, Vincent Vivier
         * @throws Exception [exception description]
         */
 	public void retourner() throws Exception{
@@ -75,7 +71,6 @@ public class CSabot extends Sabot {
 	
         /**
         * ???????????.
-        * @author Anthony Economides, Vincent Vivier
         * @throws Exception [exception description]
         */
 	public void retournerCarte() throws Exception{
@@ -93,7 +88,6 @@ public class CSabot extends Sabot {
         /**
         * Depile une carte du sabot.
         * plus d'info?????????
-        * @author Anthony Economides, Vincent Vivier
         * @throws Exception [exception description]
         */
 	public void depiler() throws Exception{
@@ -135,7 +129,6 @@ public class CSabot extends Sabot {
         * Gestion (à partir de la présentation au contrôle) du démarrage du Drag et Drop.
         * Depile une carte du sabot, si elle est au dessus des autres 2. Genere un nouveaux tas et lui empile la carte.
         * Commande la presentation de afficher le tout.
-        * @author Anthony Economides, Vincent Vivier
         * @param cc Le contrôle de Carte que on va ...
         */
 	public void p2c_debutDnd(CCarte cc){
@@ -158,7 +151,6 @@ public class CSabot extends Sabot {
         /**
         * Gestion (à partir de la présentation au contrôle) de la fin du Drag et Drop.
         * Si un drag et drop est sans success empile la carte au tas du sabot d'ou elle était dépilé.
-        * @author Anthony Economides, Vincent Vivier
         * @@param success Un boolean qui défini le success du Drag et Drop. true=success
         */
 	public void p2c_dragDropEnd(boolean success){

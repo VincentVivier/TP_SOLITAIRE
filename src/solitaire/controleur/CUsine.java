@@ -10,9 +10,6 @@ import solitaire.application.Usine;
 
 /**
    * La classe contrôle de l'usine des cartes.
-   * ????????
-   * 
-   * @author Anthony Economides, Vincent Vivier
    */
 public class CUsine extends Usine {
 

@@ -13,23 +13,23 @@ public class CSolitaire extends Solitaire {
 	public CSolitaire(String nom, Usine u) {
 		super(nom, u);
 		
-		// Le solitaire initialise tous les composants afin de pouvoir les récupérer
+		// Le solitaire initialise tous les composants afin de pouvoir les rÃ©cupÃ©rer
 		this.initialiser();
 		
-		// Récupération des présentations de tas de cartes colorées
+		// RÃ©cupÃ©ration des prÃ©sentations de tas de cartes colorÃ©es
 		PTasDeCartesColorees[] ptcc = new PTasDeCartesColorees[pilesColorees.length];
 		for (int i = 0 ; i < pilesColorees.length ; i++){
 			ptcc[i] = (PTasDeCartesColorees)((CTasDeCartesColorees)pilesColorees[i]).getPresentation();
 		}
 		
-		// Récupération des présentations des colonnes
+		// RÃ©cupÃ©ration des prÃ©sentations des colonnes
 		PColonne[] ptca = new PColonne[pilesAlternees.length];
 		for (int i = 0 ; i < pilesAlternees.length ; i++){
 			ptca[i] = (PColonne)((CColonne)pilesAlternees[i]).getPresentation();
 			ptca[i].setAffichage();
 		}
 		
-		// Création de la fenetre avec tous les composants nécessaires
+		// CrÃ©ation de la fenetre avec tous les composants nÃ©cessaires
 		p = new PSolitaire(this, ((CSabot)sabot).getPresentation(), ptcc, ptca);
 		
 		

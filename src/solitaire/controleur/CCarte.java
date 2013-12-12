@@ -28,8 +28,7 @@ public class CCarte extends Carte {
         /**
         * Change la face de la carte (de retourné à la face numéro ou le contraire)
         * et commande la présentation a afficher cette face.
-        * @param v 
-        * 		true=face visible, false= face cachée.
+        * @param v true=face visible, false= face cachée.
         */
 	public void setFaceVisible(boolean v){
 		super.setFaceVisible(v);

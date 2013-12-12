@@ -33,7 +33,7 @@ public class CTasDeCartesColorees extends TasDeCartesColorees implements ICTasDe
 		if (isEmpilable(c)){
 			super.empiler(c);
 			try {
-				if (c == getSommet()){ 						  // v�rification que l'application a bien fait son taf
+				if (c == getSommet()){ 						  // vérification que l'application a bien fait son taf
 					p.empiler(((CCarte) c).getPresentation());//avant de l'afficher
 				}
 			} catch (Exception e) {
@@ -90,7 +90,7 @@ public class CTasDeCartesColorees extends TasDeCartesColorees implements ICTasDe
 	
 	public void p2c_dragEnter(CTasDeCartes ctc){
 		try {
-			if (ctc.getNombre() == 1 && isEmpilable(ctc.getSommet())){ // isEmpilable(Tas t) renvoie tjrs vrai...
+			if (ctc.getNombre() == 1 && isEmpilable(ctc.getSommet())){ // isEmpilable(Tas t) renvoie toujours vrai...
 				p.c2p_showEmpilable();
 			}
 			else {

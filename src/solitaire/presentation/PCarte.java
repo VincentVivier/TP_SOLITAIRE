@@ -12,12 +12,12 @@ import javax.swing.* ;
 import solitaire.controleur.CCarte;
 
 /**
-* Composant Présentation d'une carte
+* Composant PrÃ©sentation d'une carte
 */
 public class PCarte extends JPanel implements Transferable{
 
 	private static final long serialVersionUID = 1L;
-	protected CCarte controle ;		// contrôleur associé
+	protected CCarte controle ;		// contrÃ´leur associÃ©
 	protected JLabel face, dos ;
 	protected ImageIcon icone ;			// image de la face
 	protected static ImageIcon iconeDos;	// image du dos
@@ -52,7 +52,7 @@ public class PCarte extends JPanel implements Transferable{
   } // constructeur
 
   /**
-   * changer la visibilité de la carte
+   * changer la visibilitÃ© de la carte
    * @param faceVisible : vrai si la face est visible, faux sinon
    */
   public void setFaceVisible (boolean faceVisible) {
@@ -78,21 +78,21 @@ public class PCarte extends JPanel implements Transferable{
   }
 
   /**
-   * programme de test : à déplacer dans une classe dédiée aux tests
+   * programme de test : ï¿½ dÃ©placer dans une classe dÃ©diÃ©e aux tests
    * @param args
    */
   public static void main (String args []) {
 	JFrame f = new JFrame ("Test PCarte") ;
 	f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-	f.setLayout(new FlowLayout()); // au lieu de BorderLayout par défaut
-	f.getContentPane ().setBackground(new Color(143, 143, 195)); // violet pâle
+	f.setLayout(new FlowLayout()); // au lieu de BorderLayout par dÃ©faut
+	f.getContentPane ().setBackground(new Color(143, 143, 195)); // violet pï¿½le
 
 	// une carte visible
 	PCarte pc = new PCarte ("QH", null);
 	pc.setFaceVisible(true);
 	f.getContentPane ().add(pc) ;
 
-	// une carte cachée
+	// une carte cachÃ©e
 	pc = new PCarte("1D", null);
 	pc.setFaceVisible(false);
 	f.getContentPane ().add(pc) ;
@@ -104,13 +104,13 @@ public class PCarte extends JPanel implements Transferable{
 
 @Override
 public DataFlavor[] getTransferDataFlavors() {
-	System.out.println("getTransferDataFlavors non implémentée");
+	System.out.println("getTransferDataFlavors non implï¿½mentï¿½e");
 	return null;
 }
 
 @Override
 public boolean isDataFlavorSupported(DataFlavor flavor) {
-	System.out.println("isDataFlavorSupported non implémentée");
+	System.out.println("isDataFlavorSupported non implï¿½mentï¿½e");
 	return false;
 }
 
