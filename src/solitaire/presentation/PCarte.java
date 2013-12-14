@@ -1,20 +1,21 @@
 package solitaire.presentation;
 
 //import solitaire.controle.* ;
-import java.awt.* ;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
+import java.awt.Color;
+import java.awt.FlowLayout;
 
-import javax.swing.* ;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import solitaire.controleur.CCarte;
 
 /**
 * Composant Présentation d'une carte
 */
-public class PCarte extends JPanel implements Transferable{
+public class PCarte extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	protected CCarte controle ;		// contrôleur associé
@@ -101,25 +102,5 @@ public class PCarte extends JPanel implements Transferable{
 	f.setLocation(200,100);	// le positionner
 	f.setVisible (true) ;	// et le rendre visible
   } // main
-
-@Override
-public DataFlavor[] getTransferDataFlavors() {
-	System.out.println("getTransferDataFlavors non impl�ment�e");
-	return null;
-}
-
-@Override
-public boolean isDataFlavorSupported(DataFlavor flavor) {
-	System.out.println("isDataFlavorSupported non impl�ment�e");
-	return false;
-}
-
-@Override
-public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
-	if (flavor.isMimeTypeEqual(DataFlavor.javaJVMLocalObjectMimeType)){
-		return (Object)this;
-	}
-	return null;
-}
 
 } // PCarte

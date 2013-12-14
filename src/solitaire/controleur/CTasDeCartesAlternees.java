@@ -12,6 +12,7 @@ public class CTasDeCartesAlternees extends TasDeCartesAlternees implements ICTas
 	
 	public CTasDeCartesAlternees(String nom, CUsine u) {
 		super(nom, u);
+		// Création de la présentation du tas de cartes.
 		p = new PTasDeCartesAlternees(this);
 	}
 	
@@ -19,20 +20,26 @@ public class CTasDeCartesAlternees extends TasDeCartesAlternees implements ICTas
 		return p;
 	}
 	
+	/**
+	 * Même méthode que le CTasDeCartes.
+	 */
 	public void depiler() throws Exception{
 		Carte s = getSommet();
 		super.depiler();
 		p.depiler(((CCarte) s).getPresentation());
 	}
 	
+	/**
+	 * Même méthode que le CTasDeCartes.
+	 */
 	public void empiler(Carte c) {
 		super.empiler(c);
 		try {
-			if (c == getSommet()){ 						  // vérification que l'application a bien fait son taf
+			if (c == getSommet()){ 	// vérification que l'application a bien fait son travail
 				p.empiler(((CCarte) c).getPresentation());//avant de l'afficher
 			}
 		} catch (Exception e) {
-			System.err.print("Exception relev�e lors d'un empilage de " + c.toString());
+			System.err.print("Exception relevée lors d'un empilage de " + c.toString());
 			e.printStackTrace();
 		}
 	}

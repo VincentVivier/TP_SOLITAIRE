@@ -29,12 +29,16 @@ public class CSolitaire extends Solitaire {
 			ptca[i].setAffichage();
 		}
 		
-		// Création de la fenetre avec tous les composants nécessaires
+		// Création de la présentation (JFrame) avec tous les composants nécessaires
 		p = new PSolitaire(this, ((CSabot)sabot).getPresentation(), ptcc, ptca);
-		
 		
 	}
 	
+	/**
+	 * Getteur sur la présentation du solitaire.
+	 * @return
+	 * 		La présentation du jeu.
+	 */
 	public PSolitaire getPresentation(){
 		return p;
 	}

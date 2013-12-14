@@ -22,26 +22,28 @@ public class PSolitaire extends JFrame {
 	
 	public PSolitaire(CSolitaire cSolitaire, PSabot sabot, PTasDeCartesColorees[] ptcc, 
 			PColonne[] ptca) {
-		super("GLI - Solitaire");
+		super("GLI - Solitaire - VIVIER/ECONOMIDES");
 		
 		this.c = c;
 		
+		// Ajout d'un listener pour détecter une éventuelle fermeture de l'pplication.
 		addWindowListener(new MyWindowListener());
 		
+		// Définition de la taille et de la couleur de l'arrière plan.
 		setPreferredSize(new Dimension(750, 700));
 		setSize(this.getPreferredSize());
 		getContentPane().setBackground(new Color(0, 0, 250));
 		
-		
+		// Définition du panel nord et de ses propriétés
 		JPanel pNord = new JPanel();
 		pNord.setLayout(new BorderLayout());
 		pNord.setOpaque(false);
 		
-		// Ajout du sabot
+		// Ajout du sabot dans le panel nord (Ouest)
 		sabot.setOpaque(false);
 		pNord.add(sabot, BorderLayout.WEST);
 		
-		// Ajout des tas de cartes colorés avec le font correspondant
+		// Ajout des tas de cartes colorés avec le font correspondant dans le panel nord (Est)
 		JLabel face;
 		JPanel pCC = new JPanel();
 		pCC.setBorder(new javax.swing.border.BevelBorder(BevelBorder.RAISED));
@@ -54,15 +56,19 @@ public class PSolitaire extends JFrame {
 			pCC.add(ptcc[i]);
 		}
 		pNord.add(pCC, BorderLayout.EAST);
+		
+		// Ajout du panel nord au nord de la fenêtre
 		add(pNord, BorderLayout.NORTH);
 		
-		// Ajout des colonnes
+		// Ajout de chaque colonne dans le panel des colonnes 
 		JPanel pColonnes = new JPanel();
 		pColonnes.setBackground(Color.YELLOW);
 		pColonnes.setOpaque(false);
 		for (int i = 0 ; i < ptca.length ; i++){
 			pColonnes.add(ptca[i], BorderLayout.CENTER);
 		}
+		
+		// Ajout du panel des colonnes au centre dela fenêtre
 		add(pColonnes, BorderLayout.CENTER);
 		
 		// Rendre visible le tout
@@ -77,6 +83,9 @@ public class PSolitaire extends JFrame {
 			
 		}
 
+		/**
+		 * Arrêt de l'application lorsque la fenêtre est fermée.
+		 */
 		@Override
 		public void windowClosing(WindowEvent e) {
 			System.out.println("Arret de l'appli");

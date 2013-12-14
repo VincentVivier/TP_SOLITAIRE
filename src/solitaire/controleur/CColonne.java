@@ -9,9 +9,11 @@ import solitaire.presentation.PColonne;
 
 /**
    * La classe contrôleur d'une colonne.
-   * Responsable pour la logique de création d'une colonne, la gestion des drag 
-   * et drop des cartes.
-   * entre eux, dépilement des tas et setReserve?
+   * Responsable de la logique du comportement d'une colonne.
+   * Implémente les fonctionnalitées suivantes :
+   * 	- Retourner une carte cachée si possible
+   * 	- Drag and Drop sur les visibles
+   * 	- Changement du curseur suivant la possibilité de cliquer
    */
 public class CColonne extends Colonne {
 
@@ -19,34 +21,35 @@ public class CColonne extends Colonne {
 	
 	// gestion DnD
 	CTasDeCartes ctc;
-	//fin gestion DnD
+	// fin gestion DnD
 	
 	/**
-        * Constructeur. Crée une colonne, avec un nom et contrôle d'usine
-        * comme paramètres. Commande la présentation à afficher cette colonne,
-        * et a retourner la dernière carte. 
-        * @param nom Le nom de la colonne.
-        * @param u Le contrôle d'usine de cartes utilisé.
+        * Crée une colonne, avec un nom et contrôle d'usine comme paramètres. 
+        * @param nom
+        * 		Le nom de la colonne.
+        * @param u 
+        * 		Le contrôle d'usine de cartes utilisé.
         */
 	public CColonne(String nom, CUsine u) {
 		super(nom, u);
+		
+		// Création de la présentation de la colonne
 		p = new PColonne(this, ((CTasDeCartes)cachees).getPresentation(),
 						((CTasDeCartesAlternees)visibles).getPresentation());
-		p.activerRetournerCarte();
 	}
 	
 	/**
-        * Retourne la présentation de la colonne pour lui passer des commandes.
-        * @return La instance de classe présentation de la colonne.
-        */
+     * @return
+     * 		L'instance de présentation d'une colonne.
+     */
 	public PColonne getPresentation(){
 		return p;
 	}
 	
 	/**
-        * ?????????
-        * @param t Le tas de carte à ????????????setReserve.
-        */
+     * Effectue le remplissage de la réserve coté applicatif puis
+     * active le listener de la présentation si une carte cachée est retournable.
+     */
 	public void setReserve(Tas t){
 		super.setReserve(t);
 		if (isCarteRetournable()){
@@ -55,8 +58,10 @@ public class CColonne extends Colonne {
 	}
 	
 	/**
-        * pas sure ??????????????? Commande la presentation à retournér la derniere carte.
-        * @throws Exception [exception description]
+        * Retourne une carte cachée du côté applicatif puis désactive le listener
+        * de la présentation si la carte cachée suivante n'estpas retournable.
+        * @throws Exception
+        * 		Si la carte n'est pas retournable
         */
 	public void retournerCarte() throws Exception{
 		super.retournerCarte();
@@ -66,8 +71,10 @@ public class CColonne extends Colonne {
 	}
 	
 	/**
-        * pas sure ??????????????? Serve à depiler le tas.
-        * @throws Exception [exception description]
+        * Dépile une carte visible et active le listener de la présentation
+        * seulement si l'application l'autorise (nbr cachée > 0 && nbre visibles = 0)
+        * @throws Exception
+        * 		Si la carte n'est pas retournable
         */
 	public void depiler() throws Exception{
 		super.depiler();
@@ -76,16 +83,27 @@ public class CColonne extends Colonne {
 		}
 	}
 	
-	// Gestion curseur
+	//---------------------------------------------------------------------------------------------
+	// Gestion du curseur
+	//---------------------------------------------------------------------------------------------
 	
+	/**
+	 * Méthode appelée lorsque le listener de la présentation a détecté un mouvement.
+	 * Le listener est seulement présent sur les tas de cartes visibles.
+	 * @param c
+	 * 		Le composant pointé par la souris en mouvement
+	 */
 	public void c2p_sourisDetectee(Component c){
 		try {
-			if (c instanceof PCarte && ((PCarte)c).getControle() == getSommet()){
+			// Le curseur MAIN est activé seulement si le composant est une PCarte (pas trouvé moins moche)
+			if (c instanceof PCarte){
 				p.showCliquable();
 			}
-			else if (isCarteRetournable()) {
+			// ou si une carte cachée est retournable (aucun listener sur les cachées)
+			else if (isCarteRetournable()) { 
 				p.showCliquable();
 			}
+			// Sinon rien est cliquable
 			else {
 				p.showNonCliquable();
 			}
@@ -94,22 +112,23 @@ public class CColonne extends Colonne {
 		}
 	}
 	
-	// fin gestion curseur
-	
-	// gestion Dnd source
+	//---------------------------------------------------------------------------------------------
+	// Gestion du Drag and Drop : source
+	//---------------------------------------------------------------------------------------------
 	
 	/**
-        * Gestion (à partir de la présentation au contrôle) du démarrage du Drag et Drop 
-        * Plus d'info ????????????????????
-        * @param cc Le contrôle de Carte que ...
+        * Applelée lors du démarrage détecté d'un drag and drop sur les visibles.
+        * @param cc
+        * 		Le contrôle de carte associé au DnD.
         */
 	public void p2c_debutDnd(CCarte cc){
 		try {
 			if (cc != null){
 				for (int i = 1 ; i <= getNombre() ; i++){
-					if (cc == getCarte(i)){ // Chercher la carte sélectionnée
+					// On cherche premièrement la carte sélectionnée avec un 'for' (pas trouvé mieux)
+					if (cc == getCarte(i)){
 						
-						// Création du Tas de cartes à déplacer
+						// Si carte trouvée : Création du Tas de cartes à déplacer
 						ctc = new CTasDeCartes("deplacees", null);
 						ctc.getPresentation().setDxDy(0, 25);
 						
@@ -117,11 +136,12 @@ public class CColonne extends Colonne {
 						for (int j = i ; j != 0 ; j--){
 							ctc.empiler(getCarte(j));
 						}
+						
 						// On dépile au niveau application seulement après, sinon conflit.
 						for (int j = i ; j != 0 ; j--){
 							depiler();
 						}
-						System.out.println("Nombre de cartes dans panel : " + ctc.getPresentation().getComponentCount());
+						// Puis on indique à la présentation que tout est OK en lui passant le tas à déplacer.
 						p.c2p_debutDndOK(ctc);
 						break;
 					}
@@ -136,26 +156,28 @@ public class CColonne extends Colonne {
 	}
 	
 	/**
-        * Gestion (à partir de la présentation au contrôle) de la fin du Drag et Drop
-        * Plus d'info ????????????????????
-        * @param success Un boolean qui défini le success du Drag et Drop. true=success
-        */
+      * Appelée lorsqu'un DnD provenant d'une colonne est terminé.
+      * @param success Un boolean qui défini le success du Drag et Drop. true=success
+      */
 	public void p2c_dragDropEnd(boolean success){
-		System.out.println("Success drop end : " + success);
+		// Si le DnD n'a pas abouti, on réempile le tas de cartes créé à l'amorçage de celui-ci.
 		if(!success){
 			empiler(ctc);
 		}
 	}
 	
-	// Gestion DnD drop
+	//---------------------------------------------------------------------------------------------
+	// Gestion du Drag and Drop : drop
+	//---------------------------------------------------------------------------------------------
 	
 	/**
-        * Gestion (à partir de la présentation au contrôle) de l'entre du cursor à la colonne.
-        * Commande la présentation à afficher une astuce au joueur, du fait que la carte peut 
-        * être ajouter à cette colonne ou non.  
-        * @param ctc [argument description]
-        */
+      * Méthode appelée lorsque la présentation détecte l'arrivée d'un tas de cartes.
+      * Elle a pour principal but, l'affichage d'information pour le joueur.
+      * @param ctc
+      * 		Le tas de cartes du Drag and Drop concerné.
+      */
 	public void p2c_dragEnter(CTasDeCartes ctc){
+		// Montrer que le tas de cartes est empilable si l'application le confirme.
 		if (isEmpilable(ctc)){
 			p.c2p_showEmpilable();
 		}
@@ -165,22 +187,19 @@ public class CColonne extends Colonne {
 	}
 	
 	/**
-        * Gestion (à partir de la présentation au contrôle) de la sortie du cursor de la colonne.
-        * Commande la présentation à plus afficher l'astuce. 
-        * @author Anthony Economides, Vincent Vivier
-        * @param ctc [argument description]
-        */
+      * Appelée lorsque le composant DnD quite la zone de drop : Affichage neutre
+      * L'argument ici n'a pas grand intérêt.
+      */
 	public void p2c_dragExit(CTasDeCartes ctc){
 		p.c2p_showNeutre();
 	}
 	
 	 /**
-        * Gestion (à partir de la présentation au contrôle) du drop d'une carte sur la colonne.
-        * Si la carte est empilable au tas, il l'empile et commande la présentation a afficher
-        * le nouveaux tas/colonne. Sinon c2p_dropKO()???????????
-        * c2p_showNeutre()?????????????
-        * @author Anthony Economides, Vincent Vivier
-        * @param ctc [argument description]
+        * Appelée lorsque le clic est relaché.
+        * Empile le tas après vérification que le tas est empilable
+        * et termine le DnD du coté présentation.
+        * @param ctc
+        * 		Tas de cartes déplacé
         */
 	public void p2c_drop(CTasDeCartes ctc){
 		if (isEmpilable(ctc)){
@@ -190,7 +209,10 @@ public class CColonne extends Colonne {
 		else {
 			p.c2p_dropKO();
 		}
-		p.c2p_showNeutre();
+		// Remise au neutre du background du conteneur quoi qu'il advienne
+		p.c2p_showNeutre(); 
 	}
-	// fin gestion Dnd
+	//---------------------------------------------------------------------------------------------
+	// Fin de gestion du Drag and Drop
+	//---------------------------------------------------------------------------------------------
 }

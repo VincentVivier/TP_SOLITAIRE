@@ -60,30 +60,36 @@ public class PColonne extends JPanel {
 		this.cachees = cachees;
 		this.visibles = visibles;
 		
-		setLayout(null); // Pour pouvoir jouer avec le déplacement des panels de cartes
+		// Supprimer le layout pour pouvoir jouer avec le déplacement des panels de cartes
+		setLayout(null);
+		
+		// Rendre invisible pour ne plus avoir à gérer la couleur des panels (choix personnel)
 		setOpaque(false);
-		setBorder(new javax.swing.border.BevelBorder(BevelBorder.LOWERED));
-		setBackground(new Color(50, 50, 255));
-		
-		cachees.setDxDy(0, 15);
-		visibles.setDxDy(0, 25);
-		
-		add(cachees);
-		add(visibles, 0);
-
-		setPreferredSize(new Dimension(72, 600));
-		setSize(getPreferredSize());
-		
-		cachees.setBackground(Color.red);
-		visibles.setBackground(Color.CYAN);
 		visibles.setOpaque(false);
 		cachees.setOpaque(false);
 		
-		visibles.setSize(72, 600);
+		// Quelques effets visuels.
+		setBorder(new javax.swing.border.BevelBorder(BevelBorder.LOWERED));
+		setBackground(new Color(50, 50, 255)); // COuleur nécessaire pour le Border (au-dessus).
 		
+		// Définition des décalages sur x et y.
+		cachees.setDxDy(0, 15);
+		visibles.setDxDy(0, 25);
+		
+		// Ajout des tas de cartes (visibles par dessus les cachés).
+		add(cachees);
+		add(visibles, 0);
+
+		// Définitions des tailles souhaitées.
+		setPreferredSize(new Dimension(72, 600));
+		setSize(getPreferredSize());
+		visibles.setSize(72, 600);
 		cachees.setSize(72, 200);
 		
+		// Création du listener écoutant le retournement d'une carte cachée
 		rcl = new RetournerCarteListener();
+		
+		// Ajout direct du listeneur concernant la gestion du curseur.
 		visibles.addMouseMotionListener(new GestionCurseur());
 		
 		// Gestion Dnd source
@@ -98,14 +104,25 @@ public class PColonne extends JPanel {
 		// fin Gestion DnD
 	}
 	
+	/**
+	 * Méthode appelée après la création de chaque colonne ainsi qu'àprès chaque modification
+	 * du tas de cartes cachés afin de régler la position du panel de tas de cartes visibles en fonction
+	 * des cachées.
+	 */
 	public void setAffichage(){
 		visibles.setLocation(0, cachees.getComponentCount()*cachees.dy);
 	}
 	
+	/**
+	 * Active le listeneur concernant le retournement d'une carte cachée sur les visibles (coix personnel). 
+	 */
 	public void activerRetournerCarte(){
 		visibles.addMouseListener(rcl);
 	}
 	
+	/**
+	 * Désactive le listener.
+	 */
 	public void desactiverRetournerCarte(){
 		visibles.removeMouseListener(rcl);
 	}
@@ -115,11 +132,11 @@ public class PColonne extends JPanel {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			try {
-				c.retournerCarte();
-				setAffichage(); // mise à jour de l'affihage
+				c.retournerCarte(); // Avertissement au contrôleur
+				setAffichage(); // mise à jour du décalage des visibles.
 				repaint();
 			} catch (Exception e1) {
-				System.err.println("Tas impossible � retourner.");
+				System.err.println("Carte cachée impossible à retourner.");
 				e1.printStackTrace();
 			}
 			
@@ -150,7 +167,9 @@ public class PColonne extends JPanel {
 		}
 	}
 	
-	// Gestion curseur
+	//---------------------------------------------------------------------------------------------
+	// Gestion du curseur
+	//---------------------------------------------------------------------------------------------
 	
 	class GestionCurseur implements MouseMotionListener {
 
@@ -162,45 +181,73 @@ public class PColonne extends JPanel {
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
+			// Avertir le contrôleur d'un mouvement en lui donnant le composant que la souris pointe.
 			c.c2p_sourisDetectee(visibles.getComponentAt(e.getPoint()));
 		}
 		
 	}
 	
+	/**
+	 * Affichage du curseur main.
+	 */
 	public void showCliquable(){
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 	
+	/**
+	 * Affichage du curseur classique. 
+	 */
 	public void showNonCliquable(){
 		setCursor(Cursor.getDefaultCursor());
 	}
 	
-	//fin gestion curseur
+	//---------------------------------------------------------------------------------------------
+	// Gestion Drag and Drop : source
+	//---------------------------------------------------------------------------------------------
 	
-	// gestion DnD source
+	/**
+	 * Méthode appelée lorsqu'un début de DnD n'a pas pu aboutir.
+	 */
 	public void c2p_debutDnDKO(CCarte cc){
-		System.out.println("tout est KOOOOOOOOO");
+		// Inutilisé jusqu'à présent.
 	}
 	
+	/**
+	 * Appelée lorsqu'un DnD est accepté par le contrôleur.
+	 * @param ct
+	 * 		Le tas de carte à afficher.
+	 */
 	public void c2p_debutDndOK(CTasDeCartes ct){
+		// Début du DnD
 		ds.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, ct.getPresentation(), myDSL);
+		
+		// Sauvegarde du panel à déplacer (nécessaire au DragSourceMotionListener).
 		ptcMove = ct.getPresentation();
-		// Ajout du panel à déplacer
+		
+		// Ajout du panel à déplacer dans la fenêtre principale après avoir réglé sa taille.
 		ptcMove.setSize(72, ptcMove.getComponentCount()*25 + 71);
 		getRootPane().add(ct.getPresentation(), 0);
 	}
 	
 	class MyDragGestureListener implements DragGestureListener{
 
+		/**
+		 * A la reconnaissance du drag.
+		 */
 		@Override
 		public void dragGestureRecognized(DragGestureEvent dge) {
-			theInitialEvent = dge;
+			theInitialEvent = dge; // Sauvegarde de l'event
 			CCarte cc = null;
 			try{
-				origin = dge.getDragOrigin();
+				// sauvegarde de l'origine (nécessaire au DragSourceMotionListener).
+				origin = dge.getDragOrigin(); 
+				
+				// Récupération de la carte
 				PCarte pc = (PCarte)visibles.getComponentAt(origin);
 				cc = pc.getControle();
 			}catch (Exception e){}
+			
+			// Avertissement au contrôleur avec la carte correspondante.
 			c.p2c_debutDnd(cc);
 		}
 		
@@ -232,9 +279,15 @@ public class PColonne extends JPanel {
 			
 		}
 
+		/**
+		 * A la fin du DnD
+		 */
 		@Override
 		public void dragDropEnd(DragSourceDropEvent dsde) {
+			// Prévenir le contrôleur du succès ou non de l'opération
 			c.p2c_dragDropEnd(dsde.getDropSuccess());
+			
+			// Supprimer le panel en mouvement.
 			getRootPane().remove(ptcMove);
 			getRootPane().repaint();
 		}
@@ -242,6 +295,9 @@ public class PColonne extends JPanel {
 	
 	class MyDragSourceMotionListener implements DragSourceMotionListener {
 
+		/**
+		 * Redéfinit la position du panel à chaque mouvement de la souris lors d'un DnD.
+		 */
 		@Override
 		public void dragMouseMoved(DragSourceDragEvent dsde) {
 			ptcMove.setLocation(dsde.getX() - getRootPane().getParent().getX() - origin.x,
@@ -251,29 +307,51 @@ public class PColonne extends JPanel {
 		
 	}
 	
-	// Gestion DnD drop
+	//---------------------------------------------------------------------------------------------
+	// Gestion du Drag and Drop : drop
+	//---------------------------------------------------------------------------------------------
 	
+	/**
+	 * Apelée par le contrôleur s'il accepte le drop.
+	 * La méthode termine l'opération de DnD.
+	 */
 	public void c2p_dropOK(){
 		theInitialDropEvent.acceptDrop(DnDConstants.ACTION_MOVE);
 		theInitialDropEvent.getDropTargetContext().dropComplete(true);
 	}
 	
+	/**
+	 * Appelée par le contrôleur si le drop n'est pas accepté.
+	 * La méthode termine l'opération en rejettant le drop.
+	 */
 	public void c2p_dropKO(){
 		theInitialDropEvent.rejectDrop();
 	}
 	
+	/**
+	 * Méthode facilitant la possibilité au joureur de savoir si le tas de cartes est déposable ou non.
+	 * Elle retient l'ancienne couleur du panel avant d'avertir que tout est OK (vert).
+	 */
 	public void c2p_showEmpilable(){
 		oldColor = visibles.getBackground();
 		visibles.setBackground(Color.green);
 		visibles.setOpaque(true);
 	}
 	
+	/**
+	 * Même principe que 'c2p_showEmpilable()'. 
+	 * Elle retient l'ancienne couleur du panel avant d'avertir que tout est KO (rouge).
+	 */
 	public void c2p_showNonEmpilable(){
 		oldColor = visibles.getBackground();
 		visibles.setBackground(Color.red);
 		visibles.setOpaque(true);
 	}
 	
+	/**
+	 * Même principe que 'c2p_showEmpilable()'. 
+	 * Elle redéfinit la couleur du panel avec l'ancienne valeur.
+	 */
 	public void c2p_showNeutre(){
 		visibles.setBackground(oldColor);
 		visibles.setOpaque(false);
@@ -283,10 +361,15 @@ public class PColonne extends JPanel {
 
 		PTasDeCartes ptc;
 		
+		/**
+		 * Lors d'un éventuel drop détecté.
+		 */
 		@Override
 		public void dragEnter(DropTargetDragEvent dtde) {
 			try {
+				// Récupération du Transferable (TasDeCartes) et sauvegarde de celui-ci.
 				ptc = (PTasDeCartes) dtde.getTransferable().getTransferData(new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType));
+				// Avertissement au contrôleur
 				c.p2c_dragEnter(ptc.getControle());
 				
 			} catch (UnsupportedFlavorException e) {
@@ -312,14 +395,17 @@ public class PColonne extends JPanel {
 
 		@Override
 		public void dragExit(DropTargetEvent dte) {
+			// Avertissement au contrôleur : nécessaire pour afficher le "neutre" -> retour visuel.
 			c.p2c_dragExit(ptc.getControle());
 		}
 
 		@Override
 		public void drop(DropTargetDropEvent dtde) {
-			theInitialDropEvent = dtde;
-			c.p2c_drop(ptc.getControle());
+			theInitialDropEvent = dtde; // Sauvegarde de l'évent.
+			c.p2c_drop(ptc.getControle()); // Avertissement du drop avec le tas de carte en question.
 		}	
 	}
-	// fin gestion DnD
+	//---------------------------------------------------------------------------------------------
+	// Fin gestion du Drag and Drop
+	//---------------------------------------------------------------------------------------------
 }

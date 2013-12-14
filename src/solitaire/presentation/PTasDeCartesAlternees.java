@@ -1,27 +1,17 @@
 package solitaire.presentation;
 
-import java.awt.Color;
 import solitaire.controleur.CTasDeCartesAlternees;
 
 public class PTasDeCartesAlternees extends PTasDeCartes {
 
 	private static final long serialVersionUID = 1L;
 	
-	//ICTasDeCartes c;
 	
 	public PTasDeCartesAlternees(CTasDeCartesAlternees c) {
-		super(c);
-	//	this.c = c;
-		
-		setBackground(Color.ORANGE);
-		
+		super(c);	
 	}
 	
-	// Empile les cartes centrées selon x et décalées suivant le nombre de composants sur y
-//	public void empiler(PCarte pc){
-//		pc.setLocation(getComponentCount()*dx, getComponentCount()*dy);
-//	//	setSize(80, getComponentCount()*dy + 71);
-//		add(pc, 0);
-//		repaint(); // N�cessaire sinon mauvais placement des cartes
-//	}
+	// Aucune méthode à définir dans cette classe de présentation car celle-ci représente un
+	// tas de cartes.
+	// Elle hérite donc de la classe PTasDeCarte qui, elle, implémente les méthodes nécessaires. 
 }

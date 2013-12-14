@@ -9,11 +9,11 @@ import solitaire.application.TasDeCartesColorees;
 import solitaire.application.Usine;
 
 /**
-   * La classe contrôle de l'usine des cartes.
-   */
+ * La classe contrôle de l'usine des cartes.
+ * Elle redéfinit toutes mes méthodes de création des contrôles afin de les faire coincider
+ * avec les contrôles que nous utiliseons.
+ */
 public class CUsine extends Usine {
-
-	
 	
 	@Override
 	public Carte newCarte(int arg0, int arg1) {
@@ -45,6 +45,4 @@ public class CUsine extends Usine {
 			Usine arg2) {
 		return new CTasDeCartesColorees(arg0, arg1, this);
 	}
-	
-	
 }

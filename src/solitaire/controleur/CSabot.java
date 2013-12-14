@@ -7,12 +7,7 @@ import solitaire.application.Tas;
 import solitaire.presentation.PCarte;
 import solitaire.presentation.PSabot;
 
-/**
-   * La classe contrôleur du Sabot.
-   * Responsable pour la logique de création du sabot, la gestion des drag 
-   * et drop des cartes, et de la sélection de 3 différentes cartes
-   * chaque foi que le joueur clique sur le sabot.
-   */
+
 public class CSabot extends Sabot {
 
 	PSabot p;
@@ -21,60 +16,62 @@ public class CSabot extends Sabot {
 	CTasDeCartes ct;
 	//fin gestion DnD
 	
-        /**
-        * Constructeur. Crée un sabot, avec un nom et contrôle d'usine
-        * comme paramètres. Commande la présentation à afficher ce sabot. 
-        * @author Anthony Economides, Vincent Vivier
-        * @param nom Le nom du sabot.
-        * @param u Le contrôle d'usine de cartes utilisé.
-        */
+    /**
+     * Crée un sabot, avec un nom et contrôle d'usine comme paramètres.
+     */
 	public CSabot(String nom, CUsine u) {
 		super(nom, u);
+		// création de la présentation
 		p = new PSabot(this, ((CTasDeCartes)cachees).getPresentation(), 
 						((CTasDeCartes)visibles).getPresentation());
 	}
 
-        /**
-        * Retourne la présentation du sabot pour lui passer des commandes.
-        * @return La instance de classe présentation du sabot.
-        */
+    /**
+     * Retourne l'instance de la présentation du sabot.
+     */
 	public PSabot getPresentation(){
 		return p;
 	}
 	
-        /**
-        * ?????????
-        * @param t Le tas de carte à ????????????setReserve.
-        */
+    /**
+     * Remise des cartes visibles en cachées dans le sabot.
+     * @param t Le tas de carte à placer dans la réserve.
+     */
 	public void setReserve(Tas t){
 		super.setReserve(t);
+		// Activation du listener concernant le retournement de 3 cartes seulement si l'appli l'autorise.
+		// Et désactivation du tas à retourner (en toute logique).
 		if (isCarteRetournable()){
 			p.activerRetournerCarte();
 			p.desactiverRetournerTas();
 		}
 	}
 	
-        /**
-        * Retourne toutes les cartes quand le joueur arrive à la fin de la liste du sabot.
-        * Commande la présentation a afficher une carte retourné(default status).
-        * @throws Exception [exception description]
-        */
+    /**
+     * Retourne toutes les cartes quand le joueur arrive à la fin de la liste du sabot.
+     * @throws Exception
+     * 		Si problème lors du retournement.
+     */
 	public void retourner() throws Exception{
 		super.retourner();
+		// Désactivation du listener si tas bien retourné (n'est plus retournable)
 		if (!isRetournable()){
 			p.desactiverRetournerTas();
 		}
+		// Activation de l'autre listener (rcl) s'il reste des cartes.
 		if (isCarteRetournable()){
 			p.activerRetournerCarte();
 		}
 	}
 	
-        /**
-        * ???????????.
-        * @throws Exception [exception description]
-        */
+    /**
+     * Retourne 3 cartes une par une en vérifiant que chaque carte est bien retournable.
+     * @throws Exception [exception description]
+     */
 	public void retournerCarte() throws Exception{
+		// On efface préalablement les visibles (les cartes restent présentes coté applicatif)
 		p.effacerVisibles();
+		// Retournement de 3 cartes avec vérif à chaque retournement
 		for (int i = 0 ; i < 3 ; i++){ // retourner 3 cartes
 			super.retournerCarte();
 			if (isRetournable()){
@@ -85,22 +82,31 @@ public class CSabot extends Sabot {
 		}
 	}
 	
-        /**
-        * Depile une carte du sabot.
-        * plus d'info?????????
-        * @throws Exception [exception description]
-        */
+    /**
+     * Depile une carte des visibles du sabot.
+     * @throws Exception
+     * 		Si erreur (carte non dépilable)
+     */
 	public void depiler() throws Exception{
 		super.depiler();
-		if (isRetournable()){
+		if (!isRetournable()){
 			p.desactiverRetournerTas();
 		}
 	}
 	
-	// Gestion curseur
+	//---------------------------------------------------------------------------------------------
+	// Gestion du curseur
+	//---------------------------------------------------------------------------------------------
 	
+	/**
+	 * Appelée lorque la souris est détectée sur les visibles.
+	 * @param c
+	 * 		Le composant pointé par la souris.
+	 */
 	public void c2p_sourisVisiblesDetectee(Component c){
 		try {
+			// On vérifie que le composant est bien une PCarte est que c'est le sommet (pas trouvé mieux)
+			// avant de changer la forme du curseur.
 			if (c instanceof PCarte && ((PCarte)c).getControle() == getSommet()){
 				p.showCliquable();
 			}
@@ -112,6 +118,10 @@ public class CSabot extends Sabot {
 		}
 	}
 	
+	/**
+	 * Appelée lorsque la souris est détectée sur les cachées.
+	 * Le joueur peut cliquer seulement si une carte de la pioche est retournable.
+	 */
 	public void c2p_sourisCacheesDetectee(){
 		if (isCarteRetournable()){
 			p.showCliquable();
@@ -121,23 +131,26 @@ public class CSabot extends Sabot {
 		}
 	}
 	
-	// fin gestion curseur
-	
-	// gestion Dnd source
+	//---------------------------------------------------------------------------------------------
+	// Gestion du Drag and Drop : source
+	//---------------------------------------------------------------------------------------------
         
         /**
-        * Gestion (à partir de la présentation au contrôle) du démarrage du Drag et Drop.
-        * Depile une carte du sabot, si elle est au dessus des autres 2. Genere un nouveaux tas et lui empile la carte.
-        * Commande la presentation de afficher le tout.
-        * @param cc Le contrôle de Carte que on va ...
+        * Méthode appelée à la reconnaissance d'un nouveau DnD.
+        * @param cc
+        * 		Le contrôle de carte cliqué par la souris.
         */
 	public void p2c_debutDnd(CCarte cc){
 		try {
-			if (cc == getSommet()){
-				depiler();
+			if (cc == getSommet()){ // Seulement si la carte est le sommet
+				depiler(); // On dépile coté appli
+				
+				//puis on crée le tas de cartes à déplacer (ici une seule carte à chaque fois)
 				ct = new CTasDeCartes("carteSabot", null);
 				ct.getPresentation().setDxDy(0, 0);
 				ct.empiler(cc);
+				
+				// On demande à la présentation de démarrer le DnD avec le tas de carte en question.
 				p.c2p_debutDnDOK(ct);
 			}
 			else{
@@ -148,13 +161,13 @@ public class CSabot extends Sabot {
 		}	
 	}
 	
-        /**
-        * Gestion (à partir de la présentation au contrôle) de la fin du Drag et Drop.
-        * Si un drag et drop est sans success empile la carte au tas du sabot d'ou elle était dépilé.
-        * @@param success Un boolean qui défini le success du Drag et Drop. true=success
-        */
+    /**
+     * Appelée à la fin d'un DnD ayant pour source ce conteneur.
+     * @param success 
+     * 		Définit le succès ou non de l'opération.
+     */
 	public void p2c_dragDropEnd(boolean success){
-		System.out.println("Success drop end : " + success);
+		//  On réempile le tas de cartes (ici une seule carte) si l'opération n'a pas aboutie.
 		if(!success){
 			try {
 				empiler(ct);
@@ -163,5 +176,8 @@ public class CSabot extends Sabot {
 			}
 		}
 	}
-	// fin gestion Dnd
+
+	//---------------------------------------------------------------------------------------------
+	// Fin de gestion du Drag and Drop : source
+	//---------------------------------------------------------------------------------------------
 }

@@ -60,18 +60,21 @@ public class PSabot extends JPanel {
 		add(cachees);
 		add(visibles);
 		
+		// Définition des décalages sur x et y.
 		cachees.setDxDy(0, 0);
 		visibles.setDxDy(25, 0);
 		
+		// Quelques effets visuels.
 		visibles.setBackground(new Color(50, 50, 255));
 		cachees.setBackground(new Color(0, 0, 200));
-		
 		cachees.setBorder(new javax.swing.border.BevelBorder(BevelBorder.RAISED));
 		visibles.setBorder(new javax.swing.border.BevelBorder(BevelBorder.LOWERED));
 		
+		// Création des listeners
 		rtl = new RetournerTasListener();
 		rcl = new RetournerCarteListener();
 		
+		// Ajout direct des listeners concernant la gestion  du curseur sur les visibles et les cachées.
 		visibles.addMouseMotionListener(new GestionCurseurVisibles());
 		cachees.addMouseMotionListener(new GestionCurseurCachees());
 		
@@ -83,48 +86,6 @@ public class PSabot extends JPanel {
 		ds.addDragSourceMotionListener(myDSML);
 		// fin Gestion DnD
 	}
-	
-	// Gestion curseur
-	
-	class GestionCurseurVisibles implements MouseMotionListener {
-
-		@Override
-		public void mouseDragged(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseMoved(MouseEvent e) {
-			c.c2p_sourisVisiblesDetectee(visibles.getComponentAt(e.getPoint()));
-		}
-		
-	}
-	
-	class GestionCurseurCachees implements MouseMotionListener {
-
-		@Override
-		public void mouseDragged(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseMoved(MouseEvent e) {
-			c.c2p_sourisCacheesDetectee();
-		}
-		
-	}
-	
-	public void showCliquable(){
-		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-	}
-	
-	public void showNonCliquable(){
-		setCursor(Cursor.getDefaultCursor());
-	}
-	
-	// fin gestion curseur
 	
 	public void activerRetournerCarte(){
 		cachees.addMouseListener(rcl);
@@ -142,6 +103,10 @@ public class PSabot extends JPanel {
 		cachees.removeMouseListener(rtl);
 	}
 	
+	/**
+	 * Effacer toutes les cartes visibles
+	 * (appelée à chaque retournement de 3 cartes)
+	 */
 	public void effacerVisibles(){
 		visibles.removeAll();
 	}
@@ -151,8 +116,8 @@ public class PSabot extends JPanel {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			try {
+				// Avertissement au contrôleur de retourner toutes les cartes visibles.
 				c.retourner();
-				System.out.println("Demande retourner tas sabot...................");
 			} catch (Exception e1) {
 				System.err.println("Tas impossible à retourner.");
 				e1.printStackTrace();
@@ -186,9 +151,10 @@ public class PSabot extends JPanel {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			try {
+				// Avertissement au contrôleur de retourner 3 cartes de la pioche.
 				c.retournerCarte();
 			} catch (Exception e1) {
-				System.err.println("Carte impossible à retourner.");
+				System.err.println("Cartes impossible à retourner.");
 				e1.printStackTrace();
 			}
 		}
@@ -215,32 +181,101 @@ public class PSabot extends JPanel {
 		
 	}
 	
-	// Gestion Dnd source
+	//---------------------------------------------------------------------------------------------
+	// Gestion du curseur
+	//---------------------------------------------------------------------------------------------
 	
-	public void c2p_debutDnDKO(CTasDeCartes ct){
-		// TODO Ajouter quelque chose plus tard si besoin
+	class GestionCurseurVisibles implements MouseMotionListener {
+
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			// Avertir le contrôleur d'un mouvement en lui donnant le composant que la souris pointe.
+			c.c2p_sourisVisiblesDetectee(visibles.getComponentAt(e.getPoint()));
+		}
+		
 	}
 	
+	class GestionCurseurCachees implements MouseMotionListener {
+
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			// Avertir le contrôleur d'un mouvement de la souris. Pas besoin d'envoyer de composant.
+			c.c2p_sourisCacheesDetectee();
+		}
+		
+	}
+	
+	/**
+	 * Affichage du curseur main.
+	 */
+	public void showCliquable(){
+		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+	}
+	
+	/**
+	 * Affichage du curseur classique. 
+	 */
+	public void showNonCliquable(){
+		setCursor(Cursor.getDefaultCursor());
+	}
+	
+	//---------------------------------------------------------------------------------------------
+	// Gestion Drag and Drop : source
+	//---------------------------------------------------------------------------------------------
+	
+	public void c2p_debutDnDKO(CTasDeCartes ct){
+		// Inutilisé jusqu'à présent.
+	}
+	
+	/**
+	 * Appelée lorsqu'un DnD est accepté par le contrôleur.
+	 * @param ct
+	 * 		Le tas de carte à afficher.
+	 */
 	public void c2p_debutDnDOK(CTasDeCartes ct){
+		// Début du DnD
 		ds.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, ct.getPresentation(), myDSL);
+		
+		// Sauvegarde du panel à déplacer (nécessaire au DragSourceMotionListener).
 		ptcMove = ct.getPresentation();
-		// Ajout du panel à déplacer
+		
+		// Ajout du panel à déplacer dans la fenêtre principale après avoir réglé sa taille.
 		ct.getPresentation().setSize(72, 96);
 		getRootPane().add(ct.getPresentation(), 0);
 	}
 	
 	class MyDragGestureListener implements DragGestureListener{
 
+		/**
+		 * A la reconnaissance du drag.
+		 */
 		@Override
 		public void dragGestureRecognized(DragGestureEvent dge) {
-			theInitialEvent = dge;
+			theInitialEvent = dge; // Sauvegarde de l'event
 			PCarte pcMove = null;
 			CCarte cc = null;
 			try{
+				// sauvegarde de l'origine (nécessaire au DragSourceMotionListener).
 				origin = dge.getDragOrigin();
+				
+				// Récupération de la carte
 				pcMove = (PCarte)visibles.getComponentAt(origin);
 				cc = pcMove.getControle();
 			}catch (Exception e){}
+			
+			// Avertissement au contrôleur avec la carte correspondante.
 			c.p2c_debutDnd(cc);
 		}
 		
@@ -272,9 +307,15 @@ public class PSabot extends JPanel {
 			
 		}
 
+		/**
+		 * A la fin du DnD
+		 */
 		@Override
 		public void dragDropEnd(DragSourceDropEvent dsde) {
+			// Prévenir le contrôleur du succès ou non de l'opération
 			c.p2c_dragDropEnd(dsde.getDropSuccess());
+			
+			// Supprimer le panel en mouvement.
 			getRootPane().remove(ptcMove);
 			getRootPane().repaint();
 		}
@@ -283,13 +324,18 @@ public class PSabot extends JPanel {
 	
 	class MyDragSourceMotionListener implements DragSourceMotionListener {
 
+		/**
+		 * Redéfinit la position du panel à chaque mouvement de la souris lors d'un DnD.
+		 */
 		@Override
 		public void dragMouseMoved(DragSourceDragEvent dsde) {
-			System.out.println("Curseur courant : x= " + dsde.getX() + " y= " + dsde.getY());
 			ptcMove.setLocation(dsde.getX() - getRootPane().getParent().getX() - origin.x,
 								dsde.getY() - getRootPane().getParent().getY() - origin.y - 25);
 		}
 		
 	}
-	// fin gestion Dnd
+
+	//---------------------------------------------------------------------------------------------
+	// Fin gestion du Drag and Drop
+	//---------------------------------------------------------------------------------------------
 }

@@ -23,28 +23,40 @@ public class CTasDeCartesColorees extends TasDeCartesColorees implements ICTasDe
 		return p;
 	}
 	
+	/**
+	 * Même méthode que le CTasDeCartes.
+	 */
 	public void depiler() throws Exception{
 		Carte s = getSommet();
 		super.depiler();
 		p.depiler(((CCarte) s).getPresentation());
 	}
 	
+	/**
+	 * Même méthode que le CTasDeCartes.
+	 */
 	public void empiler(Carte c) {
 		if (isEmpilable(c)){
 			super.empiler(c);
 			try {
-				if (c == getSommet()){ 						  // vérification que l'application a bien fait son taf
+				if (c == getSommet()){  // vérification que l'application a bien fait son travail
 					p.empiler(((CCarte) c).getPresentation());//avant de l'afficher
 				}
 			} catch (Exception e) {
-				System.err.print("Exception relev�e lors d'un empilage de " + c.toString());
+				System.err.print("Exception relevée lors d'un empilage de " + c.toString());
 				e.printStackTrace();
 			}
 		}
 	}
 	
-	// Gestion curseur
+	//---------------------------------------------------------------------------------------------
+	// Gestion du curseur
+	//---------------------------------------------------------------------------------------------
 	
+	/**
+	 * Méthode appelée lorsque la souris est détectée sur le tas coté présentation.
+	 * Le controle demande le changement du curseur seulement si le tas possède une carte.
+	 */
 	public void p2c_sourisDetectee(){
 		if (!isVide()){
 			p.showCliquable();
@@ -54,10 +66,13 @@ public class CTasDeCartesColorees extends TasDeCartesColorees implements ICTasDe
 		}
 	}
 	
-	// fin gestion curseur
+	//---------------------------------------------------------------------------------------------
+	// Gestion du Drag an Drop : source
+	//---------------------------------------------------------------------------------------------
 	
-	// gestion Dnd source
-	
+	/**
+	 * Méthode ayant le même principe que le début DnD à partir du sabot.
+	 */
 	public void p2c_debutDnd(CCarte cc){
 		try {
 			if (cc != null && cc == getSommet()){
@@ -75,8 +90,10 @@ public class CTasDeCartesColorees extends TasDeCartesColorees implements ICTasDe
 		}	
 	}
 	
+	/**
+	 * Même principe que le DnD  à partir du sabot.
+	 */
 	public void p2c_dragDropEnd(boolean success){
-		System.out.println("Success drop end : " + success);
 		if(!success){
 			try {
 				empiler(ct);
@@ -86,18 +103,24 @@ public class CTasDeCartesColorees extends TasDeCartesColorees implements ICTasDe
 		}
 	}
 	
-	// Gestion DnD drop
+	//---------------------------------------------------------------------------------------------
+	// Gestion du Drag and Drop : drop
+	//---------------------------------------------------------------------------------------------
 	
+	/**
+	 * Méthode appelée par la présentation lorsqu'elle détecte un potentiel drop.
+	 */
 	public void p2c_dragEnter(CTasDeCartes ctc){
 		try {
-			if (ctc.getNombre() == 1 && isEmpilable(ctc.getSommet())){ // isEmpilable(Tas t) renvoie toujours vrai...
+			// isEmpilable(Tas t) renvoie toujours vrai, on utilise donc un autre moyen de test :
+			// Si le tas en question n'est constitué que d'une carte et qu'elle est empilable, tout est OK.
+			if (ctc.getNombre() == 1 && isEmpilable(ctc.getSommet())){ 
 				p.c2p_showEmpilable();
 			}
 			else {
 				p.c2p_showNonEmpilable();
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -108,7 +131,9 @@ public class CTasDeCartesColorees extends TasDeCartesColorees implements ICTasDe
 	
 	public void p2c_drop(CTasDeCartes ctc){
 		try {
-			if (ctc.getNombre() == 1 && isEmpilable(ctc.getSommet())){// isEmpilable(Tas t) ne fonctionne pas :/
+			// isEmpilable(Tas t) renvoit toujours vrai
+			// Même test que la méthode 'p2c_dragEnter()'.
+			if (ctc.getNombre() == 1 && isEmpilable(ctc.getSommet())){
 				empiler(ctc); // En revanche, le empiler(Tas t) fonctionne...
 				p.c2p_dropOK();
 			}
@@ -116,7 +141,6 @@ public class CTasDeCartesColorees extends TasDeCartesColorees implements ICTasDe
 				p.c2p_dropKO();
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		p.c2p_showNeutre();
