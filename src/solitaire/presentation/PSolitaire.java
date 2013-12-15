@@ -33,6 +33,7 @@ public class PSolitaire extends JFrame {
 		setPreferredSize(new Dimension(750, 700));
 		setSize(this.getPreferredSize());
 		getContentPane().setBackground(new Color(0, 0, 250));
+		setMinimumSize(new Dimension(600, 700));
 		
 		// Définition du panel nord et de ses propriétés
 		JPanel pNord = new JPanel();

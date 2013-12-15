@@ -97,7 +97,7 @@ public class CColonne extends Colonne {
 		try {
 			// Le curseur MAIN est activé seulement si le composant est une PCarte (pas trouvé moins moche)
 			if (c instanceof PCarte){
-				p.showCliquable();
+				p.showCliquable(); 
 			}
 			// ou si une carte cachée est retournable (aucun listener sur les cachées)
 			else if (isCarteRetournable()) { 
